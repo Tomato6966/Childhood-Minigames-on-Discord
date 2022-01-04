@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.5.0"
+  },
+  "name": "documatic",
+  "version": "1.0.0",
+  "description": "a Minigame bot for the Hackathon hosted by Documatic",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomato6966/Documatic-Hackathon.git"
+  },
+  "keywords": [
+    "Minigame",
+    "Discord",
+    "Bot",
+    "Hackathon",
+    "Documatic"
+  ],
+  "author": "Tomato#6966",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Tomato6966/Documatic-Hackathon/issues"
+  },
+  "homepage": "https://github.com/Tomato6966/Documatic-Hackathon#readme"
+}

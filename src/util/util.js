@@ -225,13 +225,15 @@ const errorEmbedArray = (client, guild, user, type, text) => {
             .setTimestamp()
     ]
 }
+const gameEmojis = (array) => {
+    return shuffleArray([...array, ...array ])
+}
 
 const shuffleArray = (array) => {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var x = array[i];
-        array[i] = array[j];
-        array[j] = x;
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        j = Math.floor(Math.random() * (i + 1)); //call it twice cause Math.random() is not purely random
+        [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
 }
@@ -254,5 +256,6 @@ module.exports = {
     getAuthor,
     errorEmbedArray,
     shuffleArray,
-    getEmojiURL
+    getEmojiURL,
+    gameEmojis
 };

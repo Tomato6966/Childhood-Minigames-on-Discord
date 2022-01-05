@@ -39,7 +39,7 @@ Currently there is only 1 Game:
 
 ### 💳 Memory Game
 
-<img src="https://media.discordapp.net/attachments/927938798673887232/927984853369106472/memory.png" style="width: 50%">
+<img src="https://i.imgur.com/oAqi4N1.png" style="width: 50%">
 
  - The Memory Game is simple explained, it is like MEMORY.
  - You pic 2 Cards and remember them. If it's a match you get 1 Point.

@@ -1,4 +1,4 @@
-const { Client, Intents } = require(`discord.js`);
+const { Client, Intents, Collection } = require(`discord.js`);
 const { color_log, delay } = require(`../util/util.js`);
 const config = require(`../discord_bot/config/config.json`);
 const BotLoader = require(`../discord_bot/index`);
@@ -15,7 +15,16 @@ module.exports = () => {
         shards: 'auto',
         failIfNotExists: false
     });
-    
+
+    // define client variables
+    client.allGames = new Collection();
+    client.memoryGame = new Collection();
+    client.commands = new Collection();
+    client.allEmojis = require(`../json/emojis.js`);
+    client.colors = require(`../json/colors.js`);
+    client.allImages = require(`../json/images.js`);
+    // client.db = require(`../json/database.js`); // Example way for ur database
+
     
     const rl = createInterface({ input: process.stdin, output: process.stdout });
             

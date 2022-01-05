@@ -1,6 +1,6 @@
 # Documatic-Hackathon
 
-*Repository for the Documatic Hackathon.*
+*Offical Repository for the Documatic Hackathon, participated by [`Tomato#6966`](https://tomato6966.xyz).*
 
 # Table of Contents
 

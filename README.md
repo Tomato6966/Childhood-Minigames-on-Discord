@@ -6,10 +6,10 @@
 
 # 📋 Table of Contents
 
-- [**__1. Bot Information__**](https://github.com/Tomato6966/Documatic-Hackathon/blob/main/README.md#bot-information)
-- [**__2. How does this Bot work ?__**](https://github.com/Tomato6966/Documatic-Hackathon/#how-does-this-bot-work-)
-- [**__3. All Games__**](https://github.com/Tomato6966/Documatic-Hackathon/#all-games)
-    - [3.1 Memory Game](https://github.com/Tomato6966/Documatic-Hackathon/#memory-game)
+- [**__1. Bot Information__**](https://github.com/Tomato6966/Documatic-Hackathon/blob/main/README.md#-bot-information)
+- [**__2. How does this Bot work ?__**](https://github.com/Tomato6966/Documatic-Hackathon/#-how-does-this-bot-work-)
+- [**__3. All Games__**](https://github.com/Tomato6966/Documatic-Hackathon/#-all-games)
+    - [3.1 Memory Game](https://github.com/Tomato6966/Documatic-Hackathon/#-memory-game)
 
 ***
 
@@ -23,7 +23,7 @@
 
 ***
 
-## How does this Bot work ?
+## ❓ How does this Bot work ?
 
  - It works fully via Slash Commands. means it needs to be invited with the `applications.commands` Scope.
  - Other wise, each game needs to ping a player with which you want to play with (in some you can play alone).

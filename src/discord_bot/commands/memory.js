@@ -1,24 +1,40 @@
-const { delay, getEmojiURL, shuffleArray, getReactionEmoji, gameEmojis, random_element, getButtonRow, getDisabledComponents, getFooter, errorEmbedArray } = require(`../../util/util`);
+const { delay, getEmojiURL, getBaseData, getReactionEmoji, gameEmojis, random_element, getButtonRow, getDisabledComponents, getFooter, errorEmbedArray } = require(`../../util/util`);
 const { MessageEmbed, MessageActionRow } = require(`discord.js`)
 // 2x2 == 2, 3x3 == 4, 4x4 == 8, 5x5 == 12
 const MaxPoints = { 2: 2, 3: 4, 4: 8, 5: 12 };
 module.exports = {
-    async runCommand(client, interaction) {
-        const { member: { guild }, user, options } = interaction;
+    async runCommand(client, i) {
+        const { member: { guild }, user, options } = i;
         const EnemyUser = options.getUser(`enemy`);
         const boardSize = options.getString(`boardsize`) ? Number(options.getString(`boardsize`)) : 5;
         
         if(!EnemyUser) {
-            return interaction.reply({ embeds: errorEmbedArray(client, guild, user, 3, `**You need to ping a USER who is in this GUILD.**`), ephemeral: true }).catch(console.warn)
+            return i.reply({ embeds: errorEmbedArray(client, guild, user, 3, `**You need to ping a USER who is in this GUILD.**`), ephemeral: true }).catch(console.warn)
         }
         if(EnemyUser.id == user.id) {
-            return interaction.reply({ embeds: errorEmbedArray(client, guild, user, 4, `**You can't play with yourself.**\nMake sure to ping a ENEMY!`), ephemeral: true }).catch(console.warn)
+            return i.reply({ embeds: errorEmbedArray(client, guild, user, 4, `**You can't play with yourself.**\nMake sure to ping a ENEMY!`), ephemeral: true }).catch(console.warn)
         }
         if(EnemyUser.bot) {
-            return interaction.reply({ embeds: errorEmbedArray(client, guild, user, 4, `**You can't play with a Discord Bot.**\nMake sure to actually play against a real Human or select the AI-MODE!`), ephemeral: true }).catch(console.warn)
+            return i.reply({ embeds: errorEmbedArray(client, guild, user, 4, `**You can't play with a Discord Bot.**\nMake sure to actually play against a real Human or select the AI-MODE!`), ephemeral: true }).catch(console.warn)
         }
         
-        await interaction.reply({ 
+        // If the user (requester) or the enemy is already in a game-request return an error
+        if(client.allGames.has(`Request_${user.id}`)) {
+            return i.reply(getBaseData(client, guild, `${client.allEmojis.deny} **You are already having another Request, accept / deny it first!**\n\n> ${client.allGames.get(`Request_${user.id}`)}`)).catch(console.warn)
+        }
+        if(client.allGames.has(`Request_${EnemyUser.id}`)) {
+            return i.reply(getBaseData(client, guild, `${client.allEmojis.deny} ${EnemyUser} **is already having another Request, wait for him/her/them!**\n\n> ${client.allGames.get(`Request_${EnemyUser.id}`)}`)).catch(console.warn)
+        }
+
+        // If the user (requester) or the enemy is already in a game return an error
+        if(client.allGames.has(`Game_${user.id}`)) {
+            return i.reply(getBaseData(client, guild, `${client.allEmojis.deny} **You are already in a different Game, finish it first!**\n\n> ${client.allGames.get(`Game_${user.id}`)}`)).catch(console.warn)
+        }
+        if(client.allGames.has(`Game_${EnemyUser.id}`)) {
+            return i.reply(getBaseData(client, guild, `${client.allEmojis.deny} ${EnemyUser} **is already playing another game, wait for him/her/them!**\n\n> ${client.allGames.get(`Game_${EnemyUser.id}`)}`)).catch(console.warn)
+        }
+
+        await i.reply({ 
             content: `<@${EnemyUser.id}>`,
             embeds: [
                 new MessageEmbed()
@@ -42,21 +58,25 @@ module.exports = {
             ephemeral: false
         }).catch(console.warn);
 
-        // get the message of the interaction 
-        let message = await interaction.fetchReply().catch(console.warn);;
+        // get the message of the i 
+        let message = await i.fetchReply().catch(console.warn);;
 
-        // Create a message component interaction collector
+        // set them into the request collection
+        client.allGames.set(`Request_${user.id}`, message.url);
+        client.allGames.set(`Request_${EnemyUser.id}`, message.url);
+
+        // Create a message component i collector
         const filter = (i) => i.customId.includes(`memory_`) && i.message.id == message.id;
         
         const collector = message.createMessageComponentCollector({ componentType: `BUTTON`, filter, time: 60_000 });
         
-        collector.on(`collect`, interaction => {
+        collector.on(`collect`, i => {
             // `modify` the customId
-            let bId = interaction.customId.replace(`memory_`, ``); 
+            let bId = i.customId.replace(`memory_`, ``); 
             // if one of the 2 users and the id is cancel, then stop
-            if(bId == `cancel` && [EnemyUser.id, user.id].includes(interaction.user.id)) {
-                // update the request message and respond to the interaction
-                interaction.update({
+            if(bId == `cancel` && [EnemyUser.id, user.id].includes(i.user.id)) {
+                // update the request message and respond to the i
+                i.update({
                     components: getDisabledComponents(message.components),
                     content: message.content,
                     embeds: [message.embeds[0].setTitle(`${client.allEmojis.cancel} **Game Request has been cancelled**`).setDescription(`\u200b`)]    
@@ -64,24 +84,24 @@ module.exports = {
                 return collector.stop(); 
             } 
             // if the user is not the requested one
-            if(interaction.user.id != EnemyUser.id) {
-                return interaction.reply({ 
+            if(i.user.id != EnemyUser.id) {
+                return i.reply({ 
                     embeds: errorEmbedArray(client, guild, user, 4, `**Only ${EnemyUser.tag} is allowed to accept/deny a game!**`),
                     ephemeral: true 
                 }).catch(console.warn);
             }
             // if it`s deny
             if(bId == `deny`) {
-                // update the request message and respond to the interaction
-                interaction.update({
+                // update the request message and respond to the i
+                i.update({
                     components: getDisabledComponents(message.components),
                     content: message.content,
                     embeds: [message.embeds[0].setTitle(`${client.allEmojis.deny} **Game Request has been denied**`).setDescription(`\u200b`)]    
                 }).catch(console.warn);
                 return collector.stop(); 
             } else  {
-                // update the request message and respond to the interaction
-                interaction.update({
+                // update the request message and respond to the i
+                i.update({
                     components: getDisabledComponents(message.components),
                     content: message.content,
                     embeds: [message.embeds[0].setTitle(`${client.allEmojis.accept} **Game Request has been accepted**`)]    
@@ -91,6 +111,10 @@ module.exports = {
         });
         // Once it has ended
         collector.on(`end`, collected => {
+            // Remove them from the request collection
+            client.allGames.delete(`Request_${user.id}`);
+            client.allGames.delete(`Request_${EnemyUser.id}`);
+
             // if a selection has been made
             if(collected.size > 0) {
                 // if it got cancelled or denied, return
@@ -137,9 +161,9 @@ module.exports = {
             const emptyCardBoard = [
                 getButtonRow(ids.slice(0, boardSize).map(id => { return { emoji, id, style } })),
                 getButtonRow(ids.slice(boardSize, boardSize * 2).map(id => { return { emoji, id, style } })),
-                boardSize > 2 ? getButtonRow(ids.slice(boardSize * 2, boardSize * 3).map((id, index) => { if(boardSize == 3 && index >= 2) { return { label: "\u200b", id, style, disabled: true} } else return { emoji, id, style } })) : null,
+                boardSize > 2 ? getButtonRow(ids.slice(boardSize * 2, boardSize * 3).map((id, index) => { if(boardSize == 3 && index >= 2) { return { label: `\u200b`, id, style, disabled: true} } else return { emoji, id, style } })) : null,
                 boardSize > 3 ? getButtonRow(ids.slice(boardSize * 3, boardSize * 4).map(id => { return { emoji, id, style } })) : null,
-                boardSize > 4 ? getButtonRow(ids.slice(boardSize * 4, boardSize * 5).map((id, index) => { if(boardSize == 5 && index >= 4) { return { label: "\u200b", id, style, disabled: true} } else return { emoji, id, style } })) : null,
+                boardSize > 4 ? getButtonRow(ids.slice(boardSize * 4, boardSize * 5).map((id, index) => { if(boardSize == 5 && index >= 4) { return { label: `\u200b`, id, style, disabled: true} } else return { emoji, id, style } })) : null,
             ].filter(Boolean);
             /**
              * @INFO BOARD_EXPLANATION:
@@ -161,14 +185,13 @@ module.exports = {
             const getFinalBoard = () => {
                 const GameEmojis = Object.values(client.allEmojis.memoryGame).filter(d => d != client.allEmojis.memoryGame.backside);
                 let GameEmojiArray;
-                //get 100% win gameBoard
+                // get 100% win gameBoard
                 switch(boardSize){
                     case 2: GameEmojiArray = gameEmojis(GameEmojis.slice(0, 2)); break; // 2 different cards ( 2x2 = 4 == 2 wins)
                     case 3: GameEmojiArray = gameEmojis(GameEmojis.slice(0, 4)); break; // 4 different cards ( 3x3-1 = 8 == 4 wins)
                     case 4: GameEmojiArray = gameEmojis(GameEmojis); break; // 2 different cards ( 4x4 = 16 == 8 wins)
                     case 5: GameEmojiArray = gameEmojis([...GameEmojis, ...GameEmojis.slice(0, 4) ]); break; // 2 different cards ( 5x5-1 = 24, == 12 wins)
                 }
-                console.log(GameEmojiArray);
                 const GameBoard = {};
                 
                 for(let i = 1; i <= boardSize; i++) {
@@ -203,6 +226,10 @@ module.exports = {
                 finalBoard: getFinalBoard()
             });
 
+            // Set them into the active game collection
+            client.allGames.set(`Game_${user.id}`, GameMessage.url);
+            client.allGames.set(`Game_${EnemyUser.id}`, GameMessage.url);
+
             // resolve the Message
             return resolve(GameMessage);
         });
@@ -214,33 +241,32 @@ module.exports = {
 
         // Create a message component interaction collector
         const filter = (i) => i.customId.includes(`memory_card_`) && i.message.id == id;
+        const collector = GameMessage.createMessageComponentCollector({ componentType: `BUTTON`, filter, time: 60_000 });
         
-        const collector = GameMessage.createMessageComponentCollector({ componentType: `BUTTON`, filter, time: 600_000 });
-        
-        collector.on(`collect`, async (interaction) => {
-            let gameData = client.memoryGame.get(id);
-            const { member: { guild }, member } = interaction;
+        collector.on(`collect`, async (i) => {
+            const gameData = client.memoryGame.get(id);
+            const { member: { guild }, member } = i;
             const { board, current } = gameData;
-            const bId = interaction.customId.replace(`memory_card_`, ``);
+            const bId = i.customId.replace(`memory_card_`, ``);
             // if it's not a player of the game
             if(![ enemy.id, user.id ].includes(member.id)) {
-                return interaction.reply({ 
+                return i.reply({ 
                     embeds: errorEmbedArray(client, guild, member.user, 4, `**You are not participating in this Game!**\nIt's a game between ${user.user} & ${enemy.user}.`),
                     ephemeral: true 
                 }).catch(console.warn);
             }
             // if it's not the current User
             if(member.id != current.id) {
-                return interaction.reply({ 
+                return i.reply({ 
                     embeds: errorEmbedArray(client, guild, member.user, 4, `**It is ${current.user}'s turn, please wait!**`),
                     ephemeral: true 
                 }).catch(console.warn);
             }
 
             if(!gameData.current.first) {
-                gameData.current.first = bId; //set the first pic 
+                gameData.current.first = bId; // set the first pic 
 
-                await interaction.reply({ 
+                await i.reply({ 
                     embeds: [
                         new MessageEmbed().setColor(client.colors.main)
                         .setTitle(`${client.allEmojis.accept} This is the first Card REMEMBER IT!`)
@@ -249,10 +275,10 @@ module.exports = {
                     ],
                     ephemeral: true
                 }).catch(console.warn);
-                // wait 5 secs
-                await delay(5_000);
+                // wait 3.5 secs
+                await delay(3_500);
                 // edit the image away, so that they can't abuse it...
-                interaction.editReply({
+                i.editReply({
                     embeds: [
                         new MessageEmbed().setColor(client.colors.main)
                         .setTitle(`${client.allEmojis.timeout} Now Pick your Next Card!`)
@@ -261,13 +287,13 @@ module.exports = {
                 }).catch(console.warn);
             } else if(gameData.current.first == bId) {
                 // if he picked the same emoji twice
-                return interaction.reply({ 
+                return i.reply({ 
                     embeds: errorEmbedArray(client, guild, member.user, 4, `**You can't pick the same card twice!**`),
                     ephemeral: true 
                 }).catch(console.warn);
             } else {
                 gameData.current.second = bId;
-                
+                // Get both emojis from the finalBoard
                 var firstEmoji = finalBoard[gameData.current.first];
                 var secondEmoji = finalBoard[gameData.current.second];
                 
@@ -279,7 +305,6 @@ module.exports = {
                         gameData.enemy.points++;
                     }
                     
-
                     // get the: [rowIndex+1, ButtonIndex+1]
                     const first = gameData.current.first.split(`_`);
                     const second = gameData.current.second.split(`_`);
@@ -291,49 +316,33 @@ module.exports = {
                     
                     // if total points reached, then end the game
                     if(gameData.user.points + gameData.enemy.points >= MaxPoints[boardSize]) {
-                        gameData.winner = gameData.user.points > gameData.enemy.points ? gameData.user.user : gameData.enemy.user
-                        // Send info
-                        interaction.reply({
-                            embeds: [
-                                new MessageEmbed().setColor(client.colors.gameend)
-                                    .setTitle(`🎉 The Winner with is **__${gameData.winner.tag}__**!`)
-                                    .addField(`__Stats of Player 1:__`, `>>> **User:** ${gameData.user.user}\n**Points:** \`${gameData.user.points}\``, true)
-                                    .addField(`__Stats of Player 2:__`, `>>> **User:** ${gameData.enemy.user}\n**Points:** \`${gameData.enemy.points}\``, true)
-                            ],
-                            ephemeral: false
-                        }).catch(console.warn)
-                        // delete the game
-                        client.memoryGame.delete(id);
-                        // Updatae the message a last time
-                        GameMessage.edit({
-                            content: `${client.allEmojis.memory} \` | \` **Game Ended**!`,
-                            components: gameData.board,
-                        }).catch(console.warn);
+                        // Update the message a last time
+                        i.deferUpdate().catch(console.warn);
+                        // End the game
                         return collector.stop(`ended`);
                     }
 
-                    await interaction.reply({ 
+                    //show information that u got a match
+                    await i.reply({ 
                         embeds: [
                             new MessageEmbed().setColor(client.colors.main)
                             .setTitle(`${client.allEmojis.accept} Congrats you got a Match of ${finalBoard[bId]}, this grants you 1 Point!`)
-                            .setDescription(`*You now have \`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\` Points and your Enemy: \`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Points\`*\n\n*You can pick again!*`)
+                            .setDescription(`*You now have \`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\` Points and your Enemy: \`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Points\`*\n\n***You can pick again!***`)
                         ],
                         ephemeral: true
                     }).catch(console.warn);
-
                     // just reste the current user, u are allowed to play again!
                     gameData.current.first = null;
                     gameData.current.second = null;
                     // set the data
                     client.memoryGame.set(id, gameData);
-
-                    collector.resetTimer(); // reset the timer
-
+                    // reset the timer
+                    collector.resetTimer(); 
+                    // Update the Message
                     await GameMessage.edit({
                         content: `${client.allEmojis.memory} \` | \` **${gameData.current.user.tag}** got another turn as he/she/they got a Match!\nPick 2 Cards and remember them: ${gameData.current.user}!`,
                         components: gameData.board,
                     }).catch(console.warn);
-
                 } else {
                     // change to the new current User
                     gameData.current.user = [ enemy.user, user.user ].find(d => d.id != gameData.current.id);
@@ -342,14 +351,15 @@ module.exports = {
                     gameData.current.second = null;
                     // set the data
                     client.memoryGame.set(id, gameData);
-                    collector.resetTimer(); // reset the timer
-
+                    // reset the timer
+                    collector.resetTimer(); 
+                    // Update the Message
                     GameMessage.edit({
                         content: `${client.allEmojis.memory} \` | \` **${gameData.current.user.tag}**'s Turn!\nPick 2 Cards and remember them: ${gameData.current.user}!`,
                         components: gameData.board,
                     }).catch(console.warn);
-                    //show the emoji
-                    await interaction.reply({ 
+                    // show the emoji
+                    await i.reply({ 
                         embeds: [
                             new MessageEmbed().setColor(client.colors.main)
                             .setTitle(`${client.allEmojis.accept} This is the second Card, REMEMBER IT!`)
@@ -358,36 +368,46 @@ module.exports = {
                         ],
                         ephemeral: true
                     }).catch(console.warn);
-                    // wait 5 secs
-                    await delay(5_000);
+                    // wait 3.5 secs
+                    await delay(3_500);
                     // edit the image away, so that they can't abuse it...
-                    interaction.editReply({
+                    i.editReply({
                         embeds: [
                             new MessageEmbed().setColor(client.colors.main)
                             .setTitle(`${client.allEmojis.timeout} That was your second pick! The Cards aren't matching!`)
                         ],
                         ephemeral: true
                     }).catch(console.warn);
-
-
                 }
-
-
             }
         })
         collector.on(`end`, (collected, reason) => { 
-            if(reason && reason == `ended`) {
-                // Do nothing
-            } else {
-                let gameData = client.memoryGame.get(id)
+            const gameData = client.memoryGame.get(id)
+            gameData.winner = gameData.user.points > gameData.enemy.points ? gameData.user.user : gameData.user.points != gameData.enemy.points ? gameData.enemy.user : null;
+            
+            // Edit the message to the RESULT
+            GameMessage.edit({
+                content: `${reason && reason == `ended` ? `${client.allEmojis.memory} \` | \` **Game Ended!**` : `${client.allEmojis.memory} \` | \` **Game Ended!**\n> ${client.allEmojis.timeout} Time ran out, *because ${gameData ? `**${gameData.current.user.tag}**` : `the last User`} didn't pic 2 Cards in under 1 Minute!*`}`,
+                components: getDisabledComponents(gameData.board),
+                embeds: [
+                    new MessageEmbed().setColor(client.colors.gameend)
+                        .setTitle(`${gameData.winner ? `${client.allEmojis.win} The Winner is **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **It's a draw!**`}`)
+                        .addField(`__Stats of Player 1:__`, `>>> User: ${gameData.user.user}\nPoints: \`${gameData.user.points}\``, true)
+                        .addField(`__Stats of Player 2:__`, `>>> User: ${gameData.enemy.user}\nPoints: \`${gameData.enemy.points}\``, true)
+                ],
+            }).catch(console.warn);
 
-                GameMessage.edit({
-                    content: `${client.allEmojis.timeout} **Time ran out!**${gameData ? `\n> **${gameData.current.user.tag}** didn't react in time!` : ``}`,
-                    components: [],
-                }).catch(console.warn);
+            // Here u could add databasing functions to save the points
+            /*
+                client.db.saveGame(gameData); // code the function in the databasing script...
+            */
+           
+            // Remove them from the active game collection
+            client.allGames.delete(`Game_${gameData.user.id}`);
+            client.allGames.delete(`Game_${gameData.enemy.id}`);
 
-                client.memoryGame.delete(id);
-            }
+            // delete the game
+            client.memoryGame.delete(id);
         })
     },
     cmdData: {

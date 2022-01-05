@@ -1,38 +1,21 @@
-const { MessageEmbed } = require("discord.js")
+const { getBaseData } = require(`../../util/util`);
 module.exports = {
-    async runCommand(client, interaction) {
-        const { member: { guild }, options, createdTimestamp } = interaction;
-        const Option = options?.getString("what_ping");
-
-        if (Option && Option == "botping") {
-            await interaction.reply({ 
-                embeds: [
-                    new MessageEmbed()
-                        .setColor(client.colors.main)
-                        .setTitle(`> ${client.allEmojis.ping} Pinging ...`)
-                        .setFooter({text: guild ? guild.name : client.user.username, iconURL: guild ? guild.iconURL({dynamic: true}) : client.user.displayAvatarURL() })
-                ], 
-                ephemeral: true 
-            }).catch(console.warn);
-            interaction.editReply({ 
-                embeds: [
-                    new MessageEmbed()
-                        .setColor(client.colors.main)
-                        .setTitle(`> ${client.allEmojis.bot} **Bot Ping**: \`${Math.floor((Date.now() - createdTimestamp))} ms\`\n\n> ${client.allEmojis.ping} **Api Ping**: \`${Math.floor(client.ws.ping)} ms\``)
-                        .setFooter({text: guild ? guild.name : client.user.username, iconURL: guild ? guild.iconURL({dynamic: true}) : client.user.displayAvatarURL() })
-                ],
-                ephemeral: true 
-            })
+    async runCommand(client, i) {
+        // static Data Deconstruction
+        const { member: { guild }, options, createdTimestamp } = i;
+        const { bot, ping } = client.allEmojis;
+        // Additional Command Options
+        const Option = options?.getString(`what_ping`);
+        // If it should be the bot ping
+        if (Option && Option == `botping`) {
+            // get the ping by editing the interaction
+            return i.reply(getBaseData(client, guild, `> ${ping} Pinging ...`)).catch(console.warn).then(() => {
+                // Edit the i to show the bot ping
+                i.editReply(getBaseData(client, guild, `> ${bot} **Bot Ping**: \`${Math.floor((Date.now() - createdTimestamp))} ms\`\n\n> ${ping} **Api Ping**: \`${Math.floor(client.ws.ping)} ms\``)).catch(console.warn);
+            });
         } else {
-            await interaction.reply({ 
-                embeds: [
-                    new MessageEmbed()
-                        .setColor(client.colors.main)
-                        .setTitle(`> ${client.allEmojis.ping} **Api Ping**: \`${Math.floor(client.ws.ping)} ms\``)
-                        .setFooter({text: guild ? guild.name : client.user.username, iconURL: guild ? guild.iconURL({dynamic: true}) : client.user.displayAvatarURL() })
-                ],  
-                ephemeral: true 
-            }).catch(console.warn);
+            // Otherwise just show the api ping
+            return i.reply(getBaseData(client, guild, `> ${ping} **Api Ping**: \`${Math.floor(client.ws.ping)} ms\``)).catch(console.warn);
         }
     },
     cmdData: {

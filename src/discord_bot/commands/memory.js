@@ -1,9 +1,12 @@
-const { delay, getEmojiURL, shuffleArray, getReactionEmoji, random_element, getButtonRow, getDisabledComponents, getFooter, errorEmbedArray } = require(`../../util/util`);
+const { delay, getEmojiURL, shuffleArray, getReactionEmoji, gameEmojis, random_element, getButtonRow, getDisabledComponents, getFooter, errorEmbedArray } = require(`../../util/util`);
 const { MessageEmbed, MessageActionRow } = require(`discord.js`)
+// 2x2 == 2, 3x3 == 4, 4x4 == 8, 5x5 == 12
+const MaxPoints = { 2: 2, 3: 4, 4: 8, 5: 12 };
 module.exports = {
     async runCommand(client, interaction) {
         const { member: { guild }, user, options } = interaction;
         const EnemyUser = options.getUser(`enemy`);
+        const boardSize = options.getString(`boardsize`) ? Number(options.getString(`boardsize`)) : 5;
         
         if(!EnemyUser) {
             return interaction.reply({ embeds: errorEmbedArray(client, guild, user, 3, `**You need to ping a USER who is in this GUILD.**`), ephemeral: true }).catch(console.warn)
@@ -19,7 +22,10 @@ module.exports = {
             content: `<@${EnemyUser.id}>`,
             embeds: [
                 new MessageEmbed()
-                    .setTitle(`> ${client.allEmojis.memory} **${EnemyUser.tag}** got challenged to a game of MEMORY by \`${user.tag}\``)
+                    .setTitle(`> ${client.allEmojis.memory} a new game-request for \`${boardSize}x${boardSize}\` MEMORY!`)
+                    .addField(`__Player 1 (Challenger):__`, `> \`${user.tag}\` ${user}`, true)
+                    .addField(`__Player 2 (Enemy):__`, `> \`${EnemyUser.tag}\` ${EnemyUser}`, true)
+                    .addField(`__Board Size:__`, `> **\`${boardSize}x${boardSize}\`: _Win up to \`${MaxPoints[boardSize]} Points\`_!**`)
                     .setDescription(`***${EnemyUser} needs to accept <t:${Math.floor((Date.now() + 60_000) / 1000)}:R> or it will be cancelled!***`)
                     .setFooter(getFooter(client, guild))
                     .setColor(client.colors.main)
@@ -45,10 +51,10 @@ module.exports = {
         const collector = message.createMessageComponentCollector({ componentType: `BUTTON`, filter, time: 60_000 });
         
         collector.on(`collect`, interaction => {
-            // "modify" the customId
-            let bId = interaction.customId.replace("memory_", ""); 
+            // `modify` the customId
+            let bId = interaction.customId.replace(`memory_`, ``); 
             // if one of the 2 users and the id is cancel, then stop
-            if(bId == "cancel" && [EnemyUser.id, user.id].includes(interaction.user.id)) {
+            if(bId == `cancel` && [EnemyUser.id, user.id].includes(interaction.user.id)) {
                 // update the request message and respond to the interaction
                 interaction.update({
                     components: getDisabledComponents(message.components),
@@ -65,7 +71,7 @@ module.exports = {
                 }).catch(console.warn);
             }
             // if it`s deny
-            if(bId == "deny") {
+            if(bId == `deny`) {
                 // update the request message and respond to the interaction
                 interaction.update({
                     components: getDisabledComponents(message.components),
@@ -88,10 +94,10 @@ module.exports = {
             // if a selection has been made
             if(collected.size > 0) {
                 // if it got cancelled or denied, return
-                if(["cancel", "deny"].includes(collected.first().customId.replace("memory_", ""))) return;
+                if([`cancel`, `deny`].includes(collected.first().customId.replace(`memory_`, ``))) return;
                 
                 // start the game
-                this.startGame(client, user, EnemyUser, guild, message.channel).catch((e) => {
+                this.startGame(client, user, EnemyUser, guild, message.channel, boardSize).catch((e) => {
                     console.error(e);
                     // Edit the message so that they know the game has crahsed
                     message.edit({
@@ -107,33 +113,41 @@ module.exports = {
                         embeds: [message.embeds[0].setTitle(`${client.allEmojis.accept} **Game has started**`).setDescription(`> [Here](${gameMessage.url}) is the MESSAGE`)]    
                     }).catch(console.warn);
                     // continue handling this Game!
-                    this.handleGame(gameMessage);
+                    this.handleGame(gameMessage, boardSize);
                 })
             } else {
                 // edit it that the time ran out
                 message.edit({
                     components: getDisabledComponents(message.components),
                     content: message.content,
-                    embeds: errorEmbedArray(client, guild, user, 5, `**${EnemyUser.tag}** (\`${EnemyUser.id}\`) Sadly didn't accept the game request from **${user.tag}** (\`${user.id}\`).`)
+                    embeds: errorEmbedArray(client, guild, user, 5, `**${EnemyUser.tag}** (${EnemyUser}) Sadly didn't accept the game request from **${user.tag}** (${user}).`)
                 }).catch(console.warn)
             }
         });
 
     },
-    async startGame(client, user, EnemyUser, guild, channel) {
+    async startGame(client, user, EnemyUser, guild, channel, boardSize) {
         return new Promise(async (resolve, reject) => {
             const ids = [], style = `SECONDARY`, emoji = client.allEmojis.memoryGame.backside;
             
             // Push all existing ids into the array
-            for(let i=1;i<=4;i++) for(let j=1;j<=4;j++) ids.push(`memory_card_${i}_${j}`);
+            for(let i = 1; i <= boardSize; i++) for(let j = 1; j <= boardSize; j++) ids.push(`memory_card_${i}_${j}`);
  
             // get the empty card board
             const emptyCardBoard = [
-                getButtonRow(ids.slice(0, 4).map(id => { return { emoji, id, style } })),
-                getButtonRow(ids.slice(4, 8).map(id => { return { emoji, id, style } })),
-                getButtonRow(ids.slice(8, 12).map(id => { return { emoji, id, style } })),
-                getButtonRow(ids.slice(12, 16).map(id => { return { emoji, id, style } })),
-            ];
+                getButtonRow(ids.slice(0, boardSize).map(id => { return { emoji, id, style } })),
+                getButtonRow(ids.slice(boardSize, boardSize * 2).map(id => { return { emoji, id, style } })),
+                boardSize > 2 ? getButtonRow(ids.slice(boardSize * 2, boardSize * 3).map((id, index) => { if(boardSize == 3 && index >= 2) { return { label: "\u200b", id, style, disabled: true} } else return { emoji, id, style } })) : null,
+                boardSize > 3 ? getButtonRow(ids.slice(boardSize * 3, boardSize * 4).map(id => { return { emoji, id, style } })) : null,
+                boardSize > 4 ? getButtonRow(ids.slice(boardSize * 4, boardSize * 5).map((id, index) => { if(boardSize == 5 && index >= 4) { return { label: "\u200b", id, style, disabled: true} } else return { emoji, id, style } })) : null,
+            ].filter(Boolean);
+            /**
+             * @INFO BOARD_EXPLANATION:
+             * @INFO The board has ids for it's size!
+             * @INFO Example Id: 3_4
+             * @INFO | 1. Letter == Row Number (Index == 2 = 3 - 1) -
+             * @INFO | 2. Letter == Colomn  Number (Indedx == 3 = 4 - 1)
+            */
 
             // get a random player as the starter
             const CurrentUser = random_element([ user, EnemyUser ]);
@@ -146,11 +160,20 @@ module.exports = {
 
             const getFinalBoard = () => {
                 const GameEmojis = Object.values(client.allEmojis.memoryGame).filter(d => d != client.allEmojis.memoryGame.backside);
-                const GameEmojiArray = shuffleArray([...GameEmojis, ...GameEmojis]);
+                let GameEmojiArray;
+                //get 100% win gameBoard
+                switch(boardSize){
+                    case 2: GameEmojiArray = gameEmojis(GameEmojis.slice(0, 2)); break; // 2 different cards ( 2x2 = 4 == 2 wins)
+                    case 3: GameEmojiArray = gameEmojis(GameEmojis.slice(0, 4)); break; // 4 different cards ( 3x3-1 = 8 == 4 wins)
+                    case 4: GameEmojiArray = gameEmojis(GameEmojis); break; // 2 different cards ( 4x4 = 16 == 8 wins)
+                    case 5: GameEmojiArray = gameEmojis([...GameEmojis, ...GameEmojis.slice(0, 4) ]); break; // 2 different cards ( 5x5-1 = 24, == 12 wins)
+                }
+                console.log(GameEmojiArray);
                 const GameBoard = {};
                 
-                for(let i = 1; i <= 4; i++) {
-                    for(let j = 1; j <= 4; j++) {
+                for(let i = 1; i <= boardSize; i++) {
+                    for(let j = 1; j <= boardSize; j++) {
+                        if((boardSize == 5 || boardSize == 3) && i == boardSize && j == boardSize) continue;
                         GameBoard[`${i}_${j}`] = GameEmojiArray[0];
                         GameEmojiArray.shift(); // remove the first one
                     }
@@ -184,11 +207,10 @@ module.exports = {
             return resolve(GameMessage);
         });
     },
-    async handleGame(GameMessage) {
+    async handleGame(GameMessage, boardSize) {
         // static data
         const { client, id } = GameMessage;
         const { enemy, user, finalBoard } = client.memoryGame.get(id);
-        const guild = GameMessage.guild;
 
         // Create a message component interaction collector
         const filter = (i) => i.customId.includes(`memory_card_`) && i.message.id == id;
@@ -196,10 +218,10 @@ module.exports = {
         const collector = GameMessage.createMessageComponentCollector({ componentType: `BUTTON`, filter, time: 600_000 });
         
         collector.on(`collect`, async (interaction) => {
-            let gameData = client.memoryGame.get(id)
-            const { member: { guild }, member } = interaction
+            let gameData = client.memoryGame.get(id);
+            const { member: { guild }, member } = interaction;
             const { board, current } = gameData;
-            const bId = interaction.customId.replace("memory_card_", "");
+            const bId = interaction.customId.replace(`memory_card_`, ``);
             // if it's not a player of the game
             if(![ enemy.id, user.id ].includes(member.id)) {
                 return interaction.reply({ 
@@ -216,21 +238,21 @@ module.exports = {
             }
 
             if(!gameData.current.first) {
-                gameData.current.first = bId;
+                gameData.current.first = bId; //set the first pic 
 
                 await interaction.reply({ 
                     embeds: [
                         new MessageEmbed().setColor(client.colors.main)
                         .setTitle(`${client.allEmojis.accept} This is the first Card REMEMBER IT!`)
                         .setDescription(`*You can pick your next card ...*`)
-                        .setImage(getEmojiURL(guild, finalBoard[gameData.current.first]))
+                        .setImage(getEmojiURL(guild, finalBoard[bId]))
                     ],
                     ephemeral: true
                 }).catch(console.warn);
                 // wait 5 secs
                 await delay(5_000);
                 // edit the image away, so that they can't abuse it...
-                await interaction.editReply({
+                interaction.editReply({
                     embeds: [
                         new MessageEmbed().setColor(client.colors.main)
                         .setTitle(`${client.allEmojis.timeout} Now Pick your Next Card!`)
@@ -259,8 +281,8 @@ module.exports = {
                     
 
                     // get the: [rowIndex+1, ButtonIndex+1]
-                    const first = gameData.current.first.split("_");
-                    const second = gameData.current.second.split("_");
+                    const first = gameData.current.first.split(`_`);
+                    const second = gameData.current.second.split(`_`);
                     // edit the components 
                     board[first[0] - 1].components[first[1] - 1].setEmoji(getReactionEmoji(firstEmoji)).setDisabled(true);
                     board[second[0] - 1].components[second[1] - 1].setEmoji(getReactionEmoji(secondEmoji)).setDisabled(true);
@@ -268,7 +290,7 @@ module.exports = {
                     gameData.board = board.map(({components}) => new MessageActionRow().addComponents(components));
                     
                     // if total points reached, then end the game
-                    if(gameData.user.points + gameData.enemy.points >= 8) {
+                    if(gameData.user.points + gameData.enemy.points >= MaxPoints[boardSize]) {
                         gameData.winner = gameData.user.points > gameData.enemy.points ? gameData.user.user : gameData.enemy.user
                         // Send info
                         interaction.reply({
@@ -283,17 +305,17 @@ module.exports = {
                         // delete the game
                         client.memoryGame.delete(id);
                         // Updatae the message a last time
-                        await GameMessage.edit({
+                        GameMessage.edit({
                             content: `${client.allEmojis.memory} \` | \` **Game Ended**!`,
                             components: gameData.board,
                         }).catch(console.warn);
-                        return;
+                        return collector.stop(`ended`);
                     }
 
                     await interaction.reply({ 
                         embeds: [
                             new MessageEmbed().setColor(client.colors.main)
-                            .setTitle(`${client.allEmojis.accept} Congrats you got a Match of ${finalBoard[gameData.current.second]}, this grants you 1 Point!`)
+                            .setTitle(`${client.allEmojis.accept} Congrats you got a Match of ${finalBoard[bId]}, this grants you 1 Point!`)
                             .setDescription(`*You now have \`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\` Points and your Enemy: \`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Points\`*\n\n*You can pick again!*`)
                         ],
                         ephemeral: true
@@ -313,26 +335,6 @@ module.exports = {
                     }).catch(console.warn);
 
                 } else {
-                    await interaction.reply({ 
-                        embeds: [
-                            new MessageEmbed().setColor(client.colors.main)
-                            .setTitle(`${client.allEmojis.accept} This is the second Card, REMEMBER IT!`)
-                            .setDescription(`*That's your last pick and they aren't matching.*`)
-                            .setImage(getEmojiURL(guild, finalBoard[gameData.current.second]))
-                        ],
-                        ephemeral: true
-                    }).catch(console.warn);
-                    // wait 5 secs
-                    await delay(5_000);
-                    // edit the image away, so that they can't abuse it...
-                    await interaction.editReply({
-                        embeds: [
-                            new MessageEmbed().setColor(client.colors.main)
-                            .setTitle(`${client.allEmojis.timeout} That was your second pick! The Cards aren't matching!`)
-                        ],
-                        ephemeral: true
-                    }).catch(console.warn);
-
                     // change to the new current User
                     gameData.current.user = [ enemy.user, user.user ].find(d => d.id != gameData.current.id);
                     gameData.current.id = gameData.current.user.id;
@@ -342,18 +344,50 @@ module.exports = {
                     client.memoryGame.set(id, gameData);
                     collector.resetTimer(); // reset the timer
 
-                    await GameMessage.edit({
+                    GameMessage.edit({
                         content: `${client.allEmojis.memory} \` | \` **${gameData.current.user.tag}**'s Turn!\nPick 2 Cards and remember them: ${gameData.current.user}!`,
                         components: gameData.board,
                     }).catch(console.warn);
+                    //show the emoji
+                    await interaction.reply({ 
+                        embeds: [
+                            new MessageEmbed().setColor(client.colors.main)
+                            .setTitle(`${client.allEmojis.accept} This is the second Card, REMEMBER IT!`)
+                            .setDescription(`*That's your last pick and they aren't matching.*`)
+                            .setImage(getEmojiURL(guild, finalBoard[bId]))
+                        ],
+                        ephemeral: true
+                    }).catch(console.warn);
+                    // wait 5 secs
+                    await delay(5_000);
+                    // edit the image away, so that they can't abuse it...
+                    interaction.editReply({
+                        embeds: [
+                            new MessageEmbed().setColor(client.colors.main)
+                            .setTitle(`${client.allEmojis.timeout} That was your second pick! The Cards aren't matching!`)
+                        ],
+                        ephemeral: true
+                    }).catch(console.warn);
+
 
                 }
 
 
             }
         })
-        collector.on(`end`, collected => { 
+        collector.on(`end`, (collected, reason) => { 
+            if(reason && reason == `ended`) {
+                // Do nothing
+            } else {
+                let gameData = client.memoryGame.get(id)
 
+                GameMessage.edit({
+                    content: `${client.allEmojis.timeout} **Time ran out!**${gameData ? `\n> **${gameData.current.user.tag}** didn't react in time!` : ``}`,
+                    components: [],
+                }).catch(console.warn);
+
+                client.memoryGame.delete(id);
+            }
         })
     },
     cmdData: {
@@ -365,6 +399,19 @@ module.exports = {
                 description: `Against who do you want to play?`,
                 required: true,
                 type: 6
+            },
+            {
+                name: `boardsize`,
+                description: `How big should the playboard be?`,
+                required: false,
+                choices: [
+                    { name: '2x2_up_to_2_points', value: '2' },
+                    { name: '3x3_up_to_4_points', value: '3' },
+                    { name: '4x4_up_to_8_points', value: '4' },
+                    { name: '5x5_up_to_12_points', value: '5' },
+                ],
+                autocomplete: undefined,
+                type: 3,
             }
         ],
         default_permission: undefined

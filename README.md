@@ -4,9 +4,10 @@
 
 # Table of Contents
 
-- [**__1 All needed Console Commands__**](https://github.com/Tomato6966/how-to-setup-your-linux-server/wiki/1-All-needed-Console-Commands)
-    - [1.1 Directory Navigation](https://github.com/Tomato6966/how-to-setup-your-linux-server/wiki/1.1-Directory-Navigation)
-
+- [**__1. Bot Information__**](https://github.com/Tomato6966/Documatic-Hackathon/blob/main/README.md#bot-information)
+- [**__2. How does this Bot work ?__**](https://github.com/Tomato6966/Documatic-Hackathon/#how-does-this-bot-work-)
+- [**__3. All Games__**](https://github.com/Tomato6966/Documatic-Hackathon/#all-games)
+    - [3.1 Memory Game](https://github.com/Tomato6966/Documatic-Hackathon/#memory-game)
 
 ## Bot Information!
 

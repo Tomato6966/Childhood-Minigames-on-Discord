@@ -268,6 +268,7 @@ module.exports = {
                     first: null,
                     second: null
                 },
+                aipic = gameData.current.user.id === client.user.id ? 1 : null,
                 board: emptyCardBoard,
                 guildId: guild.id,
                 boardSize: boardSize,
@@ -429,7 +430,6 @@ module.exports = {
                     }).catch(console.warn);
 
 
-                    var aipic = gameData.current.user.id === client.user.id ? 1 : null;
                     await CheckMove();
 
                     function CheckMove(after_x_pics_100_per_cent){
@@ -445,21 +445,21 @@ module.exports = {
                                 // get the 100% match pic, board length OR the provide length
                                 var pic_100 = after_x_pics_100_per_cent ? after_x_pics_100_per_cent : gameData.board.length;
                                 // raise the pic amount
-                                aipic++;
+                                gameData.aipic++;
                                 // if only 2 cards left 100% win
                                 if(array.length == 2) {
                                     gameData.current.first = array[0];
                                     gameData.current.first = array[1];
                                 } else {
                                     // 1 / 2, 1 / 3, 1 / 4, 1 / 5
-                                    var picChance = aipic > pic_100 ? 1 : 1 / (array.length + array.length / 2);
+                                    var picChance = gameData.aipic > pic_100 ? 1 : 1 / (array.length);
                                     // Pic a random element
                                     gameData.current.first = random_element(array);
                                     //get the pic chance to see if the second should be the same aka match or not
                                     gameData.current.second = Math.random() < picChance ? array.filter(d => d != gameData.current.first).find(d => gameData.finalBoard[d] == gameData.finalBoard[gameData.current.first]) : random_element(array.filter(d => d != gameData.current.first));
                                 }
                                 // reset the ai pic if needed
-                                aipic = aipic > pic_100 ? 0 : aipic;
+                                gameData.aipic = gameData.aipic > pic_100 ? 0 : gameData.aipic;
                                 
                                 let aiMessage = `${eval(currentturn)}\n${eval(ainomatch)}`;
         

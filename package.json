@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@discordjs/rest": "^0.2.0-canary.0",
-    "discord-api-types": "^0.26.1",
     "discord.js": "^13.5.0"
   },
   "name": "documatic",

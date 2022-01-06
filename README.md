@@ -46,3 +46,16 @@ Currently there is only 1 Game:
  - The one with the most points is the winner.
  - You have 1 Minute to pic 2 cards. Otherwise the game will end!
  - [Here](https://www.ultraboardgames.com/memory/game-rules.php) are offical Memory Rules
+
+## Commands
+
+All Commands work via slash Commands!
+
+ - `/ping`
+ - `/uptime`
+ - `/info [what_info:about_me/memory_game]`
+ - `/invite`
+ - `/support`
+ - `/leaderboard game:memory/all_games sort:maxpoints/avg_points_per_game`
+ - `/userstats [user:@user]`
+ - `/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]`

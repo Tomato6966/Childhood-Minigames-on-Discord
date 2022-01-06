@@ -126,7 +126,7 @@ const set = (key, data) => {
     var data = {};
     client.guilds.cache.each(({id}) => {return data[id] = perGuildData });
     
-    data = await client.db.setRaw(data);
+    data = await client.db.setRawData(data);
  * @param {*} key 
  * @param {*} data 
  * @returns promise and then setted data
@@ -219,7 +219,7 @@ const saveGame = (gameData, Type = "default") => {
                 } 
             }
 
-            await setRaw(rawData);
+            await setRawData(rawData);
 
             await updateCache();
 

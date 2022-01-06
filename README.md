@@ -20,7 +20,9 @@
  - It's coded with nodejs v16.13 but needs nodejs v16.6 or higher, due to latest discord.js version. Technically it doesn't need any other packages, except the ones which are build in nodejs such as `fs`, `readline`, etc. but if you want you could add a custom DB, there is an example for it...
  - All Emojis used are provided in a Folder, which can be used, but not needed, because u can use [UNICODE](https://getemoji.com) Emojis too!
  - The Theme of this BOT is **"CHILD GAMES"**, this means it is inspiried by Games we used to play as a child!
-
+ - It supports multiple languages and you can easily add more!
+ - It has a OWN CODED DATABASE with JSON, aka it can corrupt on BIG DATAS soon, so you might adjust database.js (it's easy to change!!!! as you have functions for it!) [I might add examples for something like enmap)
+ - and more!
 ***
 
 ## ❓ How does this Bot work ?
@@ -41,26 +43,28 @@ Currently there is only 1 Game:
 
 <img src="https://i.imgur.com/oAqi4N1.png" style="width: 50%">
 
- - The Memory Game is simple explained, it is like MEMORY.
- - You pic 2 Cards and remember them. If it's a match you get 1 Point.
- - The one with the most points is the winner.
- - you can play with the bot, he is an EASY AI, aka it will calculate the % of when to win and always win after X different wrong pics
- - You can play with yourself (but you will get 1 win and 1 loose at the same time... aka you control player 1 and 2)
- - You have 1 Minute to pic 2 cards. Otherwise the game will end!
- - [Here](https://www.ultraboardgames.com/memory/game-rules.php) are offical Memory Rules
+ - The Memory Game is simple explained, it is like **MEMORY CARDS**.
+ - You pic 2 Cards and remember them. If it's a **match** you get **1 Point**.
+ - The one with the **most points** is the **winner**.
+ - you can play with the **bot, he is an EASY AI**, aka it will calculate the % of when to win and always win after X different wrong pics
+ - You can play with **yourself** (but you will get 1 win and 1 loose at the same time... aka you control player 1 and 2)
+ - You have **1 Minute** to **pic 2 cards**. Otherwise the game will end!
+ - [Here](https://www.ultraboardgames.com/memory/game-rules.php) are **offical Memory Rules**
 
 ## Commands
 
 All Commands work via slash Commands!
 
-- `/language [change_language:german/bosnia/english/frensh/hindi/kurdish/spansish/]` ... change the language of the bot in that guild
+ - `/language [change_language:german/bosnia/english/frensh/hindi/kurdish/spansish/]` ... change the language of the bot in that guild
+
  - `/ping [what_ping:api_ping/bot]` ... show the ping of the bot 
  - `/uptime` ... show the uptime of the bot
  - `/info [what_info:about_me/memory_game]` ... show some information
  - `/invite` ... invite it
  - `/support` ... show support server
+
  - `/leaderboard game:memory/all_games sort:maxpoints/avg_points_per_game` ... shows the leaderboard of all games or specific games + adds option to define the sorting style
  - `/userstats [user:@user]` ... shows stats of user (global & guild stats [maybe soon option to define global or guild]
- - `/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]` ... plays a game of memory with options like who is the enemy and how big the board should be!
+ - **`/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]`** ... plays a game of memory with options like who is the enemy and how big the board should be!
 
 You can play with yourself and with the bot as an ai

@@ -10,6 +10,9 @@
 - [**__2. How does this Bot work ?__**](https://github.com/Tomato6966/Documatic-Hackathon/#-how-does-this-bot-work-)
 - [**__3. All Games__**](https://github.com/Tomato6966/Documatic-Hackathon/#-all-games)
     - [3.1 Memory Game](https://github.com/Tomato6966/Documatic-Hackathon/#-memory-game)
+- [**__4. Self Hosting Tutorial__**](https://github.com/Tomato6966/Documatic-Hackathon/#-self-hosting-tutorial)
+- [**__5. Commands List__**](https://github.com/Tomato6966/Documatic-Hackathon/#-commands-list)
+- [**__6. To Do List and History__**](https://github.com/Tomato6966/Documatic-Hackathon/#-to-do-and-history)
 
 ***
 
@@ -21,8 +24,9 @@
  - All Emojis used are provided in a Folder, which can be used, but not needed, because u can use [UNICODE](https://getemoji.com) Emojis too!
  - The Theme of this BOT is **"CHILD GAMES"**, this means it is inspiried by Games we used to play as a child!
  - It supports multiple languages and you can easily add more!
- - It has a OWN CODED DATABASE with JSON, aka it can corrupt on BIG DATAS soon, so you might adjust database.js (it's easy to change!!!! as you have functions for it!) [I might add examples for something like enmap)
+ - It has a OWN CODED DATABASE with JSON, aka it can corrupt on BIG DATAS soon, so you might adjust database.js (it's easy to change!!!! as you have functions for it!) I might add examples for something like enmap)
  - and more!
+
 ***
 
 ## ❓ How does this Bot work ?
@@ -51,9 +55,15 @@ Currently there is only 1 Game:
  - You have **1 Minute** to **pic 2 cards**. Otherwise the game will end!
  - [Here](https://www.ultraboardgames.com/memory/game-rules.php) are **offical Memory Rules**
 
-## Commands
+***
 
-All Commands work via slash Commands!
+## ⚙️ Self Hosting Tutorial
+
+***
+
+## 💪 Commands list
+
+> All Commands work via slash Commands!
 
  - `/language [change_language:german/bosnia/english/frensh/hindi/kurdish/spansish/]` ... change the language of the bot in that guild
 
@@ -67,9 +77,11 @@ All Commands work via slash Commands!
  - `/userstats [user:@user]` ... shows stats of user (global & guild stats [maybe soon option to define global or guild]
  - **`/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]`** ... plays a game of memory with options like who is the enemy and how big the board should be!
 
-You can play with yourself and with the bot as an ai
+> You can play with yourself and with the bot as an ai
 
-## To Do:
+***
+
+## 👀 To Do and History
 > - ✅ Handler add: `Slash Commands and Event Handler + Deployer Option in console` **02.01.2022 20:00**
 > - ✅ Minigame add: `Ask Question and answer with Documatic to access Bot` **02.01.2022 20:21**
 > - ✅ Command add: `/ping` **02.01.2022 20:46**

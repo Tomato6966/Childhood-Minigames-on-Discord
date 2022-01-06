@@ -1,4 +1,4 @@
-const { color_log } = require(`../util/util.js`);
+const { color_log, delay } = require(`../util/util.js`);
 const { readdirSync } = require(`fs`);
 /**
  * 
@@ -53,10 +53,10 @@ const loadSlash = async (client, { token, BotUserId, loadGlobal, toLoadGuild }) 
             if(e) console.error(e);
             // reject (.catch) the promise
             reject(e);
-        });
+        })
         
         // Once the bot is ready show it
-        client.once("ready", async () => {
+        client.on("ready", async () => {
             try {
                 if(loadGlobal){
                     await client.application.commands.set(slashCommands); // set the global commands
@@ -69,6 +69,7 @@ const loadSlash = async (client, { token, BotUserId, loadGlobal, toLoadGuild }) 
                     await guild.commands.set(slashCommands); // set the guild commands
                     color_log([`FgGreen`], `Successfully pushed the Guild Slash-Commands`);
                 }
+                // await delay(150);
                 // resolve (.then) the promise
                 resolve(true);
             } catch(e) {

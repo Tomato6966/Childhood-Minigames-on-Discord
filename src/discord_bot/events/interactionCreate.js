@@ -2,17 +2,24 @@ module.exports = async (client, interaction) => {
     if (!interaction?.isCommand()) return;
     const slashCommand = client.commands.get(interaction.commandName);
     if(!slashCommand) return;
-   
-    if(interaction.member) {
-        const { guild } = interaction.member;
-        if(guild) {
-            const channel = guild.channels.cache.get(interaction.channelId) || await guild.channels.fetch(interaction.channelId).catch(() => {}) || false
-            if(!channel.permissionsFor(guild.me).has(`EMBED_LINKS`)){
-                return interaction.reply({
-                    ephemeral: true,
-                    content: `❌ **I am missing the \`EMBED_LINKS\` Permission!**`
-                }).catch(console.warn)
-            }
+    if(!interaction.member || !interaction.member.guild) {
+            return interaction.reply({
+                ephemeral: true,
+                content: `${client.allEmojis.deny} **This Command only works in a Guild!**`
+            }).catch(console.warn)
+    }
+
+    const { guild } = interaction.member;
+    const ls = client.db.cache.has(guild.id) ? client.db.cache.get(guild.id).lang : "en";
+    const { perms, error } = client.la[ls].commands.ping;
+        
+    if(guild) {
+        const channel = guild.channels.cache.get(interaction.channelId) || await guild.channels.fetch(interaction.channelId).catch(() => {}) || false
+        if(!channel.permissionsFor(guild.me).has(`EMBED_LINKS`)){
+            return interaction.reply({
+                ephemeral: true,
+                content: `${eval(perms)}`
+            }).catch(console.warn)
         }
     }
     try {
@@ -21,7 +28,7 @@ module.exports = async (client, interaction) => {
         if(e) console.warn(e)
         await interaction.reply({
             ephemeral: true,
-            content: `❌ **Something went wrong while running this Command!**`
+            content: `${eval(error)}`
         }).catch(console.warn)
     }
 }

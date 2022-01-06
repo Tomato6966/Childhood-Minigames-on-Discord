@@ -51,11 +51,12 @@ Currently there is only 1 Game:
 
 All Commands work via slash Commands!
 
- - `/ping`
- - `/uptime`
- - `/info [what_info:about_me/memory_game]`
- - `/invite`
- - `/support`
- - `/leaderboard game:memory/all_games sort:maxpoints/avg_points_per_game`
- - `/userstats [user:@user]`
- - `/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]`
+- `/language [change_language:german/bosnia/english/frensh/hindi/kurdish/spansish/]` ... change the language of the bot in that guild
+ - `/ping [what_ping:api_ping/bot]` ... show the ping of the bot 
+ - `/uptime` ... show the uptime of the bot
+ - `/info [what_info:about_me/memory_game]` ... show some information
+ - `/invite` ... invite it
+ - `/support` ... show support server
+ - `/leaderboard game:memory/all_games sort:maxpoints/avg_points_per_game` ... shows the leaderboard of all games or specific games + adds option to define the sorting style
+ - `/userstats [user:@user]` ... shows stats of user (global & guild stats [maybe soon option to define global or guild]
+ - `/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]` ... plays a game of memory with options!

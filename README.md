@@ -59,4 +59,6 @@ All Commands work via slash Commands!
  - `/support` ... show support server
  - `/leaderboard game:memory/all_games sort:maxpoints/avg_points_per_game` ... shows the leaderboard of all games or specific games + adds option to define the sorting style
  - `/userstats [user:@user]` ... shows stats of user (global & guild stats [maybe soon option to define global or guild]
- - `/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]` ... plays a game of memory with options!
+ - `/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]` ... plays a game of memory with options like who is the enemy and how big the board should be!
+
+You can play with yourself and with the bot as an ai

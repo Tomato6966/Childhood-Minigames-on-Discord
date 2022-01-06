@@ -68,3 +68,39 @@ All Commands work via slash Commands!
  - **`/memory enemy:@user [boardsize:2x2_up_to_2_Points/3x3_up_to_4_Points/4x4_up_to_8_Points/5x5up_to_12_Points]`** ... plays a game of memory with options like who is the enemy and how big the board should be!
 
 You can play with yourself and with the bot as an ai
+
+## To Do:
+> - ✅ Handler add: `Slash Commands and Event Handler + Deployer Option in console` **02.01.2022 20:00**
+> - ✅ Minigame add: `Ask Question and answer with Documatic to access Bot` **02.01.2022 20:21**
+> - ✅ Command add: `/ping` **02.01.2022 20:46**
+> - ✅ Command add: `/info what_info` **03.01.2022 20:00**
+> - ✅ Feature add: `add option to choose quick start` **03.01.2022 20:17**
+> - ✅ Command add: `/memory` **03.01.2022 21:00**
+> - ✅ Command add: `/language change_language` **04.01.2022 17:23** (recode everything again)
+> - ✅ Languageadd: `German` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `Spain` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `Hindi` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `Bosnia` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `French` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `Spanish` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `Kurdish` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ Languageadd: `Ukrainian` **05.01.2022 18:45** (automated translation script with request and open google api to translate it)
+> - ✅ DEBUG FOR BUGS: `Fix bugs in all languages and scripts + optimize it` **05.01.2022** 23:00 (5h of debugging & testing)
+> - ✅ Command add: `/support` **06.01.2022 11:17**
+> - ✅ Command add: `/uptime` **06.01.2022 11:17**
+> - ✅ Command add: `/invite` **06.01.2022 11:17**
+> - ✅ Feature add: `/memory --> play with yourself validation (get 1 win & 1 loose) (technically shouldn't change the lb)` **06.01.2022 13:10**
+> - ✅ Feature add: `/memory --> Pick the bot to play with AI` **06.01.2022 13:57**
+> - ✅ Feature add: `add bot.js to directly start the bot without userinput` **06.01.2022 14:00**
+> - ✅ Command add: `/userstats user` **06.01.2022 14:20**
+> - ✅ Command add: `/leaderboard game sort` **06.01.2022 14:43**
+> - ❌ Add Game: `DOME`
+> - ❌ Add Game: `Bubbles`
+> - ❌ Add Game: `LADDERS`
+> - ❌ Add Game: `"CUPS"`
+> - ❌ Languageadd: `Arab`
+> - ❌ Languageadd: `Czech`
+> - ❌ Languageadd: `Dutch`
+> - ❌ Languageadd: `chineese/japan`
+> - ❌ Feature add: `sharding`
+> - ❌ Feature add: `Automated Status Changer`

@@ -268,7 +268,7 @@ module.exports = {
                     first: null,
                     second: null
                 },
-                aipic = gameData.current.user.id === client.user.id ? 1 : null,
+                aipic: EnemyUser.id === client.user.id ? 1 : null,
                 board: emptyCardBoard,
                 guildId: guild.id,
                 boardSize: boardSize,
@@ -461,7 +461,7 @@ module.exports = {
                                 // reset the ai pic if needed
                                 gameData.aipic = gameData.aipic > pic_100 ? 0 : gameData.aipic;
                                 
-                                let aiMessage = `${eval(currentturn)}\n${eval(ainomatch)}`;
+                                let aiMessage;
         
                                 // get the: [rowIndex+1, ButtonIndex+1]
                                 const first = gameData.current.first.split(`_`);
@@ -487,10 +487,11 @@ module.exports = {
                                     }
                                 } else {
                                     // just reset the current user, u are allowed to play again!
-                                    gameData.current.user = [ enemy.user, user.user ].find(d => d.id != gameData.current.id) || user.user;
+                                    gameData.current.user = [ gameData.enemy.user, gameData.user.user ].find(d => d.id != gameData.current.id) || gameData.user.user;
                                     gameData.current.id = gameData.current.user.id;
                                     gameData.current.first = null;
                                     gameData.current.second = null;
+                                    aiMessage = `${eval(currentturn)}\n${eval(ainomatch)}`;
                                 }
                                 // set the data
                                 client.memoryGame.set(id, gameData);

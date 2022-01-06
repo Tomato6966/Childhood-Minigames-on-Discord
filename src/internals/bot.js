@@ -25,7 +25,7 @@ module.exports = async () => {
     client.allImages = require(`../json/images.js`);
     
     
-    client.db = require(`../json/database.js`); 
+    client.db = require(`../util/database.js`); 
     await client.db.init(); // initialize the database
 
     // Multiple Languages

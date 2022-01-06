@@ -1,0 +1,118 @@
+{
+   "commands": {
+      "info": {
+         "memory": {
+            "title": "`> ${client.allEmojis.memory} मेमोरी गेम`",
+            "field1": {
+               "key": "`__क्या करें:__`",
+               "value": "`>>> एक खिलाड़ी को आपके साथ खेलने की पेशकश की जाती है (आप वैकल्पिक रूप से बोर्ड का आकार (~ गेमटाइम) तय कर सकते हैं), उसके द्वारा स्वीकार किए जाने के बाद खेल शुरू होता है। चेहरे और स्थिति। अगर वे फिर से हैं तो वे फिर से तस्वीर ले सकते हैं, और अगर उन्हें एक मैच (== एक ही चेहरे के साथ 2 कार्ड) मिलता है तो उन्हें 1 अंक मिलता है। खेल समाप्त हो गया)।\\n\\nयदि आपको कोई मैच मिलता है, तो आप फिर से चित्र बना सकते हैं।\\n\\nआपके पास 2 कार्ड लेने के लिए 1 मिनट है, अन्यथा खेल समाप्त हो जाएगा!\\n\\n[*यहां क्लिक करें आधिकारिक मेमोरी नियम देखने के लिए*](https://www.ultraboardgames.com/memory/game-rules.php)`"
+            },
+            "field2": {
+               "key": "`__उपलब्ध खेलने के विकल्प:__`",
+               "value": "`>>> **\\`2x2 तख़्ता\\` *... तक \\`2 अंक\\`***\\n**\\`3x3 तख़्ता\\` *... तक \\`4 अंक\\`***\\n**\\`4x4 तख़्ता\\` *... तक \\`8 अंक\\`***\\n**\\`5x5 तख़्ता\\` *... तक \\`12 अंक\\`***`"
+            }
+         },
+         "about_me": {
+            "title": "`> ${client.allEmojis.bot} अरे मैं **${client.user.username}** हूं और मैं आपको डिस्कॉर्ड पर जाने-माने और पसंद किए जाने वाले चाइल्ड-गेम प्रदान करता हूं!\\nआरंभ करने के लिए एक  टाइप करें \\`/\\` और मुझे चुनें!`"
+         }
+      },
+      "memory": {
+         "alone": {
+            "title": "`क्या आप अपने साथ खेलना चाहते हैं?`",
+            "description": "`आप अकेले खेल सकते हैं, लेकिन यह आपके लिए 1 जीत और 1 हार के रूप में गिना जाएगा!\\nउर्फ आप **खिलाड़ी 1** और **खिलाड़ी 2**` खेलते हैं`",
+            "accept": "`${client.allEmojis.accept} अब अकेले खेल रहे हैं!`",
+            "deny": "`${client.allEmojis.deny} अकेले नहीं खेलना और रद्द करना!`"
+         },
+         "error1": "`**आपको एक उपयोगकर्ता को पिंग करने की आवश्यकता है जो इस गिल्ड में है।**`",
+         "error3": "`**आप एक डिस्कॉर्ड बॉट के साथ नहीं खेल सकते।**\\nवास्तव में एक वास्तविक मानव के खिलाफ खेलना सुनिश्चित करें या एआई-मोड का चयन करें!`",
+         "request_user": "`${client.allEmojis.deny} **आपके पास पहले से ही एक और अनुरोध है, पहले इसे स्वीकार/अस्वीकार करें!**\\n\\n> ${client.allGames.get(`Request_${user.id}`)}`",
+         "request_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ के पास पहले से ही एक और अनुरोध है, उसके लिए प्रतीक्षा करें!**\\n\\n> ${client.allGames.get(`Request_${EnemyUser.id}`)}`",
+         "game_user": "`${client.allEmojis.deny} **आप पहले से ही एक अलग गेम में हैं, पहले इसे खत्म करें!**\\n\\n> ${client.allGames.get(`Game_${user.id}`)}`",
+         "game_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ पहले से ही एक और गेम खेल रहा है, उसके लिए प्रतीक्षा करें!**\\n\\n> ${client.allGames.get(`Game_${EnemyUser.id}`)}`",
+         "request": {
+            "title": "`> ${client.allEmojis.memory} \\`${boardSize}x${boardSize}\\` MEMORY! के लिए एक नया गेम-अनुरोध`",
+            "field1": {
+               "key": "`__प्लेयर 1 (चैलेंजर):__`",
+               "value": "`> \\`${user.tag}\\` ${user}`"
+            },
+            "field2": {
+               "key": "`__प्लेयर 2 (दुश्मन):__`",
+               "value": "`> \\`${EnemyUser.tag}\\` ${EnmyUser}`"
+            },
+            "field3": {
+               "key": "`__बोर्ड का आकार:__`",
+               "value": "`> **\\`${boardSize}x${boardSize}\\`: _\\`$ तक जीतें${MaxPoints[boardSize]} पॉइंट\\`_!**`"
+            },
+            "description": "`***${EnemyUser} को <t:${Math.floor((Date.now() + 60_000) / 1000)}:R> को स्वीकार करना होगा या इसे रद्द कर दिया जाएगा!***`",
+            "buttons": {
+               "accept": "`गेम अनुरोध स्वीकार करें`",
+               "deny": "`गेम अनुरोध अस्वीकार करें`",
+               "cancel": "`खेल अनुरोध रद्द करें`"
+            },
+            "cancelled": "`${client.allEmojis.cancel} **गेम अनुरोध रद्द कर दिया गया है**`",
+            "not_allowed": "`**केवल ${EnemyUser.tag} को किसी गेम को स्वीकार/अस्वीकार करने की अनुमति है!**`",
+            "denied": "`${client.allEmojis.deny} **गेम अनुरोध अस्वीकार कर दिया गया**`",
+            "accepted": "`${client.allEmojis.accept} **गेम अनुरोध स्वीकार कर लिया गया है**`",
+            "error_start": "`गेम शुरू नहीं किया जा सका।\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+            "started": "`${client.allEmojis.accept} **खेल शुरू हो गया है**`",
+            "started_desc": "`> [यहां](${gameMessage.url}) संदेश है`",
+            "timeout": "`**${EnemyUser.tag}** (${EnemyUser}) दुख की बात है कि **${user.tag}** (${user}) से गेम का अनुरोध स्वीकार नहीं किया।`"
+         },
+         "game": {
+            "ainomatch": "`${client.allEmojis.bot} **AI का कोई मैच नहीं है।**`",
+            "aimatch": "`${client.allEmojis.bot} **AI एक मैच मिल गया!**`",
+            "turn": "`${client.allEmojis.memory} \\` | \\` **${CurrentUser.tag}** की बारी!\\n2 कार्ड चुनें और उन्हें याद रखें: ${CurrentUser}!`",
+            "notplaying": "`**आप इस गेम में भाग नहीं ले रहे हैं!**\\nयह ${user.user} और ${enemy.user} के बीच का गेम है।`",
+            "notturn": "`**${current.user} की बारी है, कृपया प्रतीक्षा करें!**`",
+            "firstpic": {
+               "title": "`${client.allEmojis.accept} यह पहला कार्ड है इसे याद रखें!`",
+               "description": "`*आप अपना अगला कार्ड चुन सकते हैं ...*`"
+            },
+            "secondpic": {
+               "title": "`${client.allEmojis.accept} यह दूसरा कार्ड है, इसे याद रखें!`",
+               "description": "`*यह आपकी आखिरी पसंद है और वे मेल नहीं खा रहे हैं.*`"
+            },
+            "editedpic": "`${client.allEmojis.timeout} अब अपना अगला कार्ड चुनें!`",
+            "notsamecard": "`**आप एक ही कार्ड को दो बार नहीं चुन सकते!**`",
+            "match": {
+               "title": "`${client.allEmojis.accept} बधाई हो कि आपको ${finalBoard[bId]} का मैच मिला, इससे आपको 1 अंक मिलता है!`",
+               "description": "`*अब आपके पास \\`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\\` पॉइंट्स और आपका दुश्मन: \\`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} अंक\\`*\\n\\n***आप फिर से चुन सकते हैं!***`"
+            },
+            "matchturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** एक और मोड़ आया क्योंकि उन्हें एक मैच मिला!\\n2 कार्ड चुनें और उन्हें याद रखें: ${gameData.current.user}!`",
+            "currentturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** की बारी!\\n2 कार्ड चुनें और उन्हें याद रखें: ${gameData.current.user}!`",
+            "finishpic": "`${client.allEmojis.timeout} वह आपकी दूसरी पसंद थी! कार्ड मेल नहीं खा रहे हैं!`",
+            "end": {
+               "content": "`${reason && reason == `ended` ? `${client.allEmojis.memory} \\` | \\` **खेल समाप्त!**` : `${client.allEmojis.memory} \\` | \\` **खेल समाप्त!**\\n> ${client.allEmojis.timeout}समय समाप्त हो गया, *क्योंकि ${gameData ? `**${gameData.current.user.tag}**` : `अंतिम उपयोगकर्ता`} ने 1 मिनट से कम समय में 2 कार्ड नहीं लिए!*`}`",
+               "title": "`${gameData.winner ? `${client.allEmojis.win} विजेता हैं **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **यह ड्रॉ है!**`}`",
+               "field1": {
+                  "key": "`__खिलाड़ी 1 के आँकड़े:__`",
+                  "value": "`>>> उपयोगकर्ता: ${gameData.user.user}\\nPoints: \\`${gameData.user.points}\\``"
+               },
+               "field2": {
+                  "key": "`__खिलाड़ी 2 के आँकड़े:__`",
+                  "value": "`>>> उपयोगकर्ता: ${gameData.enemy.user}\\nPoints: \\`${gameData.enemy.points}\\``"
+               }
+            }
+         }
+      },
+      "ping": {
+         "botping": {
+            "ping": "`> ${ping} पिंग ...`",
+            "result": "`> ${bot} **बॉट पिंग**: \\`${Math.floor((Date.now() - createdTimestamp))} ms\\`\\n\\n> ${ping} **आपी पिंग**: \\`${Math.floor(client.ws.ping)} ms\\``"
+         },
+         "api": "`> ${ping} **आपी पिंग**: \\`${Math.floor(client.ws.ping)} ms\\``"
+      },
+      "setlanguage": {
+         "missing_perms": "`**आप एक डिस्कॉर्ड व्यवस्थापक नहीं हैं और गिल्ड को प्रबंधित नहीं कर सकते!**\\n> आपको इसे निष्पादित करने की अनुमति नहीं है!`",
+         "success": "`> ${client.allEmojis.accept} नई भाषा को सफलतापूर्वक सेट करें \\`${Langs[Option]}\\``",
+         "error": "`भाषा नहीं बदल सका\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+         "current": "`> ${पिंग} **वर्तमान भाषा है**: \\`${Langs[ls]}\\``"
+      }
+   },
+   "events": {
+      "interactionCreate": {
+         "perms": "`${client.allEmojis.deny} **मुझे \\`EMBED_LINKS\\` अनुमति नहीं मिल रही है!**`",
+         "error": "`${client.allEmojis.deny} **इस कमांड को चलाते समय कुछ गलत हो गया!**`"
+      }
+   }
+}

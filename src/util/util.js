@@ -250,6 +250,7 @@ const errorEmbedArray = (client, guild, user, type = 0, text = "No Description A
         `${client.allEmojis.error} \` | \` Missing Parameter.`, // type == 3
         `${client.allEmojis.perms} \` | \` Not allowed.`, // type == 4
         `${client.allEmojis.timeout} \` | \` Time ran out.`, // type == 5
+        `${client.allEmojis.timeout} \` | \` Not found.`, // type == 6
     ]
     return [
         new MessageEmbed()                    
@@ -311,7 +312,7 @@ const getEmojiURL = (guild, emoji) => {
  * @param {*} Color Optional default = client.colors.main
  * @returns a base OBJECT RESPONSE DATA for replying an interaction (can be used for sending messages too) as an RICH-EMBED
 */
-const getBaseData = (client, guild, text = "❌ No Text Added", Ephemeral = true, Color) => {
+const getBaseData = (client, guild, text = "❌ No Text Added", Ephemeral = true, Color, Components = []) => {
     if(!client || !guild) return { 
         ephemeral: Ephemeral, 
         content: `❌ Missing BaseData Parameters (CLIENT and GUILD)`
@@ -325,6 +326,7 @@ const getBaseData = (client, guild, text = "❌ No Text Added", Ephemeral = true
                 .setFooter(getFooter(client, guild))
         ], 
         ephemeral: true,
+        components: Components
     }
 }
 
@@ -347,5 +349,6 @@ module.exports = {
     errorEmbedArray,
     shuffleArray,
     getEmojiURL,
-    gameEmojis
+    gameEmojis,
+    getDateTimeString
 };

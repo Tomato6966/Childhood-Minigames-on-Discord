@@ -1,6 +1,7 @@
 module.exports = {
     ping: "<a:Ping:927942341313056838>",
     bot: "<:ChildGamer:927940702959198218>",
+    discord: "<:Discord:928606050498805790>",
     deny: "<:Denied:927941967038546051>",
     error: "<:Error:927974046489001984>",
     accept: "<:Accepted:927941967004962866>",

@@ -1,0 +1,118 @@
+{
+   "commands": {
+      "info": {
+         "memory": {
+            "title": "`> ${client.allEmojis.memory} Memorijska igra`",
+            "field1": {
+               "key": "`__Šta raditi:__`",
+               "value": "`>>> Igraču se nudi da igra sa vama (opciono možete odrediti veličinu ploče (~Gametime)), nakon što on/ona/oni prihvate, igra počinje.\\n\\nKorisnik koji je na redu je slika 2 Kartira i pamti njihova lica i položaj. Ako su ponovo, mogu ponovo slikati, a ako dobiju poklapanje (== 2 karte sa istim licem) dobijaju 1 bod.\\n\\nIgrač sa najviše Poeni pobjeđuje (nakon što se pronađu svi mečevi ili igra je završena).\\n\\nAko dobijete utakmicu, možete slikati ponovo.\\n\\nImate 1 minut da slikate 2 karte, inače će se igra završiti!\\n\\n[*Kliknite ovdje da vidite zvanična pravila pamćenja*](https://www.ultraboardgames.com/memory/game-rules.php)`"
+            },
+            "field2": {
+               "key": "`__Dostupne opcije igranja:__`",
+               "value": "`>>> **\\`2x2 Board\\` *... sve do \\`2 Poeni\\`***\\n**\\`3x3 Board\\` *... sve do \\`4 Poeni\\`***\\n**\\`4x4 Board\\` *... sve do \\`8 Poeni\\`***\\n**\\`5x5 Board\\` *... sve do \\`12 Poeni\\`***`"
+            }
+         },
+         "about_me": {
+            "title": "`> ${client.allEmojis.bot} Hej, ja sam **${client.user.username}** i pružam vam dobro poznate i omiljene dječje igre na Discordu!\\nDa započnete upišite \\`/\\` i odaberite mene!`"
+         }
+      },
+      "memory": {
+         "alone": {
+            "title": "`Želiš li se igrati sam sa sobom?",
+            "description": "`Možete igrati sami, ali to će vam se računati kao 1 pobjeda i 1 poraz!\\nKao što igrate **PLAYER 1** i **PLAYER 2**`",
+            "accept": "`${client.allEmojis.accept} Sada igrate sami!`",
+            "deny": "`${client.allEmojis.deny} Ne igra se sama i otkazana!`"
+         },
+         "error1": "`**Morate pingovati KORISNIKA koji je u ovom GILDU.**`",
+         "error3": "`**Ne možete igrati sa Discord Botom.**\\nPobrinite se da igrate protiv pravog čovjeka ili odaberite AI-ModE!`",
+         "request_user": "`${client.allEmojis.deny} **Već imate drugi zahtjev, prvo ga prihvatite / odbijte!**\\n\\n> ${client.allGames.get(`Request_${user.id}`)}`",
+         "request_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ već ima drugi Zahtjev, sačekajte njega/nju/njih!**\\n\\n> ${client.allGames.get(`Request_${EnemyUser.id}`)}`",
+         "game_user": "`${client.allEmojis.deny} **Već ste u drugoj igrici, završite je prvi!**\\n\\n> ${client.allGames.get(`Game_${user.id}`)}`",
+         "game_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ već igra drugu igru, sačekajte njega/nju/njih!**\\n\\n> ${client.allGames.get(`Game_${EnemyUser.id}`)}`",
+         "request": {
+            "title": "`> ${client.allEmojis.memory} novi zahtjev za igru ​​za \\`${boardSize}x${boardSize}\\` MEMORY!`",
+            "field1": {
+               "key": "`__Player 1 (Challenger):__`",
+               "value": "`> \\`${user.tag}\\` ${user}`"
+            },
+            "field2": {
+               "key": "`__Player 2 (Neprijatelj):__`",
+               "value": "`> \\`${EnemyUser.tag}\\` ${EnemyUser}`"
+            },
+            "field3": {
+               "key": "`__Veličina ploče:__`",
+               "value": "`> **\\`${boardSize}x${boardSize}\\`: _Osvojite do \\`${MaxPoints[boardSize]} poena\\`_!**`"
+            },
+            "description": "`***${EnemyUser} mora prihvatiti <t:${Math.floor((Date.now() + 60_000) / 1000)}:R> ili će biti otkazan!***`",
+            "buttons": {
+               "accept": "`Prihvatite zahtjev za igru`",
+               "deny": "`odbij zahtjev za igru`",
+               "cancel": "`Otkaži zahtjev za igru`"
+            },
+            "cancelled": "`${client.allEmojis.cancel} **Zahtjev za igru je otkazan**`",
+            "not_allowed": "`**Samo ${EnemyUser.tag} može prihvatiti/odbiti igru!**`",
+            "denied": "`${client.allEmojis.deny} **Zahtjev za igru je odbijen**`",
+            "accepted": "`${client.allEmojis.accept} **Zahtjev za igru je prihvaćen**`",
+            "error_start": "`Ne mogu pokrenuti igru.\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+            "started": "`${client.allEmojis.accept} **Igra je počela**`",
+            "started_desc": "`> [Ovdje](${gameMessage.url}) je PORUKA`",
+            "timeout": "`**${EnemyUser.tag}** (${EnemyUser}) Nažalost, nije prihvatio zahtjev za igru ​​od **${user.tag}** (${user}).`"
+         },
+         "game": {
+            "ainomatch": "`${client.allEmojis.bot} **AI nema podudaranja.**`",
+            "aimatch": "`${client.allEmojis.bot} **JA IMAM UPOTREBU!**`",
+            "turn": "`${client.allEmojis.memory} \\` | \\` **${CurrentUser.tag}** je na redu!\\nIzaberite 2 karte i zapamtite ih: ${CurrentUser}!`",
+            "notplaying": "`**Ne učestvujete u ovoj igrici!**\\nTo je igra između ${user.user} i ${enemy.user}.`",
+            "notturn": "`**Na redu je ${current.user}, sačekajte!**`",
+            "firstpic": {
+               "title": "`${client.allEmojis.accept} Ovo je prva kartica ZAPAMTITE TO!`",
+               "description": "`*Možete odabrati svoju sljedeću kartu ...*`"
+            },
+            "secondpic": {
+               "title": "`${client.allEmojis.accept} Ovo je druga karta, ZAPAMTITE!`",
+               "description": "`*To je tvoj posljednji izbor i ne odgovaraju.*`"
+            },
+            "editedpic": "`${client.allEmojis.timeout} Sada odaberite svoju sljedeću kartu!`",
+            "notsamecard": "`**Ne možete izabrati istu kartu dvaput!**`",
+            "match": {
+               "title": "`${client.allEmojis.accept} Čestitamo, dobili ste meč ${finalBoard[bId]}, ovo vam daje 1 bod!`",
+               "description": "`*Sada imate \\`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\\` Poeni i vaš neprijatelj: \\`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Poeni\\`*\\n\\n***Možete birati ponovo!***`"
+            },
+            "matchturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** je dobio još jedan potez jer su on/ona/oni dobili meč!\\nOdaberite 2 karte i zapamtite ih: ${gameData.current.user}!`",
+            "currentturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** je na redu!\\nIzaberite 2 karte i zapamtite ih: ${gameData.current.user}!`",
+            "finishpic": "`${client.allEmojis.timeout} To je bio tvoj drugi izbor! Karte se ne poklapaju!`",
+            "end": {
+               "content": "`${reason && reason == `ended` ? `${client.allEmojis.memory} \\` | \\` **Igra je završena!**` : `${client.allEmojis.memory} \\` | \\` **Igra je završena!**\\n> ${client.allEmojis.timeout} Vrijeme je isteklo, *jer ${gameData ? `**${gameData.current.user.tag}**` : `posljednji korisnik`} nije slikao 2 karte za manje od 1 minute!*`}`",
+               "title": "`${gameData.winner ? `${client.allEmojis.win} Pobjednik je **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **Neriješeno je!**`}`",
+               "field1": {
+                  "key": "`__Statistika igrača 1:__`",
+                  "value": "`>>> Korisnik: ${gameData.user.user}\\nPoeni: \\`${gameData.user.points}\\``"
+               },
+               "field2": {
+                  "key": "`__Statistika igrača 2:__`",
+                  "value": "`>>> Korisnik: ${gameData.enemy.user}\\nPoeni: \\`${gameData.enemy.points}\\``"
+               }
+            }
+         }
+      },
+      "ping": {
+         "botping": {
+            "ping": "`> ${ping} Pinging ...`",
+            "result": "`> ${bot} **Bot Ping**: \\`${Math.floor((Date.now() - createdTimestamp))} ms\\`\\n\\n> ${ping} **Api Ping**: \\`${Math.floor(client.ws.ping)} ms\\``"
+         },
+         "api": "`> ${ping} **Api Ping**: \\`${Math.floor(client.ws.ping)} ms\\``"
+      },
+      "setlanguage": {
+         "missing_perms": "`**Vi niste Discord administrator i ne možete upravljati Cehom!**\\n> Nije vam dozvoljeno da ovo izvršite!`",
+         "success": "`> ${client.allEmojis.accept} Uspješno postavite novi jezik na \\`${Langs[Option]}\\``",
+         "error": "`Ne mogu promijeniti jezik.\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+         "current": "`> ${ping} **Trenutni jezik je**: \\`${Langs[ls]}\\``"
+      }
+   },
+   "events": {
+      "interactionCreate": {
+         "perms": "`${client.allEmojis.deny} **Nedostaje mi dozvola \\`EMBED_LINKS\\`!**`",
+         "error": "`${client.allEmojis.deny} **Nešto je pošlo po zlu pri pokretanju ove komande!**`"
+      }
+   }
+}

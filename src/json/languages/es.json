@@ -1,0 +1,118 @@
+{
+   "commands": {
+      "info": {
+         "memory": {
+            "title": "`> ${client.allEmojis.memory} Juego de memoria`",
+            "field1": {
+               "key": "`__Qué hacer: __`",
+               "value": "` >>> Se ofrece a un jugador que juegue contigo (opcionalmente puedes decidir el tamaño del tablero (~ Gametime)), después de que él / ella / ellos hayan aceptado que el juego comience. \\n\\nEl usuario que tiene el turno son las fotos 2 Cartas y recuerda sus caras y posición. Si vuelven a estar pueden volver a fotografiar, y si obtienen un Match (== 2 Cartas con la misma cara) obtienen 1 Punto. \\n\\nEl jugador con más Puntos gana (después de que se encuentran todas las coincidencias o el juego finaliza). \\n\\nSi obtienes una partida, puedes volver a hacer una foto. \\n\\nTienes 1 minuto para las fotos de 2 tarjetas, de lo contrario, ¡el juego terminará! \\n\\n [*Haga clic aquí para ver las Reglas de memoria oficiales*](https://www.ultraboardgames.com/memory/game-rules.php) `"
+            },
+            "field2": {
+               "key": "`__Opciones de reproducción disponibles: __`",
+               "value": "`>>> **\\`2x2 Board\\` *... up to \\`2 Puntos\\`***\\n**\\`3x3 Board\\` *... up to \\`4 Puntos\\`***\\n**\\`4x4 Board\\` *... up to \\`8 Puntos\\`***\\n**\\`5x5 Board\\` *... up to \\`12 Puntos\\`***`"
+            }
+         },
+         "about_me": {
+            "title": "`> ${client.allEmojis.bot} ¡Hola, soy **${client.user.username}** y te proporciono Juegos para niños bien conocidos y que me gustan en Discord! \\nPara empezar, escribe \\`/\\` y seleccióname!`"
+         }
+      },
+      "memory": {
+         "alone": {
+            "title": "`¿Quieres jugar contigo mismo?`",
+            "description": "`¡Puedes jugar solo, pero contará como 1 victoria y 1 perdido para ti!\\nAka tú juegas **JUGADOR 1** y **JUGADOR 2**`",
+            "accept": "`${client.allEmojis.accept} ¡Ahora jugando solo!`",
+            "deny": "`${client.allEmojis.deny} ¡No estoy jugando solo y cancelado!`"
+         },
+         "error1": "`** Necesita hacer ping a un USUARIO que esté en este GUILD. **`",
+         "error3": "`** No puedes jugar con un Discord Bot. ** \\n¡Asegúrate de jugar contra un Humano real o selecciona el MODO AI!`",
+         "request_user": "`${client.allEmojis.deny} ** Ya tienes otra Solicitud, acéptala / rechaza primero! ** \\n\\n> ${client.allGames.get (`Request_${user.id}`)}`",
+         "request_enemy": "`${client.allEmojis.deny} ** __ ${EnemyUser.tag} __ ya está recibiendo otra Solicitud, ¡espérelo! ** \\n\\n> ${client.allGames.get(`Request_${EnemyUser.id}`)}`",
+         "game_user": "`${client.allEmojis.deny} ** Ya estás en un juego diferente, ¡finalízalo primero! ** \\n\\n> ${client.allGames.get (`Game_${user.id}`)}`",
+         "game_enemy": "`${client.allEmojis.deny} ** __ ${EnemyUser.tag} __ ya está jugando a otro juego, ¡espérelo! ** \\n\\n> ${client.allGames.get(`Game_${EnemyUser.id}`)}`",
+         "request": {
+            "title": "`> ${client.allEmojis.memory} una nueva solicitud de juego para \\`${boardSize} x ${boardSize}\\` MEMORY!`",
+            "field1": {
+               "key": "`__Jugador 1 (Challenger): __`",
+               "value": "`> \\`${user.tag}\\` ${user}`"
+            },
+            "field2": {
+               "key": "`__Jugador 2 (enemigo): __`",
+               "value": "`> \\`${EnemyUser.tag}\\` ${EnemyUser}`"
+            },
+            "field3": {
+               "key": "`__Tamaño del tablero: __`",
+               "value": "`> **\\`${boardSize} x ${boardSize}\\` : _Gana hasta \\`${MaxPoints[boardSize]} Puntos\\` _! **`"
+            },
+            "description": "`*** ${EnemyUser} necesita aceptar <t: ${Math.floor ((Date.now () + 60_000) / 1000)}: R> o será cancelado! ***`",
+            "buttons": {
+               "accept": "`Aceptar solicitud de juego`",
+               "deny": "`Denegar solicitud de juego`",
+               "cancel": "`Cancelar solicitud de juego`"
+            },
+            "cancelled": "`${client.allEmojis.cancel} ** La solicitud de juego ha sido cancelada **`",
+            "not_allowed": "`** ¡Solo ${EnemyUser.tag} puede aceptar / rechazar un juego! **`",
+            "denied": "`${client.allEmojis.deny} ** La solicitud de juego ha sido denegada **`",
+            "accepted": "`${client.allEmojis.accept} ** Se ha aceptado la solicitud de juego **`",
+            "error_start": "`No se pudo iniciar el juego. \\n\\`\\`\\`${String (e.message? E.message: e) .substring (0, 1000)}\\`\\`\\``",
+            "started": "`${client.allEmojis.accept} ** El juego ha comenzado **`",
+            "started_desc": "`> [Aquí] (${gameMessage.url}) es el MENSAJE`",
+            "timeout": "`** ${EnemyUser.tag} ** (${EnemyUser}) Lamentablemente, no aceptó la solicitud de juego de ** ${user.tag} ** (${user}).`"
+         },
+         "game": {
+            "ainomatch": "` $ {client.allEmojis.bot} ** AI no tiene coincidencias. ** `",
+            "aimatch": "` $ {client.allEmojis.bot} ** ¡AI TIENE UN PARTIDO! ** `",
+            "turn": "`${client.allEmojis.memory} \\` | \\` ¡Es el turno de **${CurrentUser.tag}**! \\nElija 2 tarjetas y recuérdelas: ${CurrentUser}!`",
+            "notplaying": "`**¡No estás participando en este juego!** \\nEs un juego entre ${user.user} y ${enemy.user} .`",
+            "notturn": "`**Es el turno de ${current.user}, ¡por favor espere! **`",
+            "firstpic": {
+               "title": "`${client.allEmojis.accept} Esta es la primera tarjeta ¡RECUERDA!`",
+               "description": "`*You can pick your next card ...*`"
+            },
+            "secondpic": {
+               "title": "`${client.allEmojis.accept} Esta es la segunda carta, ¡RECUERDA!`",
+               "description": "`*Esa es tu última elección y no coinciden.*`"
+            },
+            "editedpic": "`${client.allEmojis.timeout} ¡Ahora elija su próxima tarjeta!`",
+            "notsamecard": "`**No puedes elegir la misma carta dos veces!**`",
+            "match": {
+               "title": "`${client.allEmojis.accept} Felicidades, obtuviste un partido de ${finalBoard[bId]}, esto te otorga 1 punto!`",
+               "description": "`*Ahora tienes \\`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\\` Puntos y tu enemigo: \\`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Puntos\\`*\\n\\n***Puedes elegir de nuevo!***`"
+            },
+            "matchturn": "`${client.allEmojis.memory}\\` |\\` **${gameData.current.user.tag}** consiguió otro turno como él / ella / ellos consiguieron un partido!\\nElige 2 cartas y recuerdalas: ${gameData.current.user}!`",
+            "currentturn": "`${client.allEmojis.memory}\\` |\\` **${gameData.current.user.tag}**'s Turno!\\nElige 2 cartas y recuerdalas: ${gameData.current.user}!`",
+            "finishpic": "`${client.allEmojis.timeout} ¡Esa fue tu segunda elección! ¡Las cartas no coinciden!`",
+            "end": {
+               "content": "`${reason && reason == `ended` ? `${client.allEmojis.memory}\\` |\\` **Juego terminado!**` : `${client.allEmojis.memory}\\` |\\` **Juego terminado!**\\n> ${client.allEmojis.timeout} Se acabó el tiempo, *porque ${gameData ? `**${gameData.current.user.tag}**` : `La última usuaria`} ¡No foto 2 tarjetas en menos de 1 minuto!*`}`",
+               "title": "`${gameData.winner ? `${client.allEmojis.win} La ganadora es **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **Es un empate!**`}`",
+               "field1": {
+                  "key": "`__Estadisticas de la jugadora 1:__`",
+                  "value": "`>>> Usuaria: ${gameData.user.user}\\nPuntos: \\`${gameData.user.points}\\``"
+               },
+               "field2": {
+                  "key": "`__Estadisticas de la jugadora 2:__`",
+                  "value": "`>>> Usuaria: ${gameData.enemy.user}\\nPuntos: \\`${gameData.enemy.points}\\``"
+               }
+            }
+         }
+      },
+      "ping": {
+         "botping": {
+            "ping": "`> ${ping} Ping ...`",
+            "result": "`> ${bot} **Bot Ping**: \\`${Math.floor((Date.now() - createdTimestamp))} ms\\`\\n\\n> ${ping} **Api Ping**: \\`${Math.floor(client.ws.ping)} ms\\``"
+         },
+         "api": "`> ${ping} **Api Ping**: \\`${Math.floor(client.ws.ping)} ms\\``"
+      },
+      "setlanguage": {
+         "missing_perms": "`**¡No eres un administrador de Discord y no puedes administrar el gremio! ** \\n> No tienes permiso para ejecutar esto!`",
+         "success": "`> ${client.allEmojis.accept} Configurar correctamente el nuevo idioma en\\` ${Langs[Option]}\\``",
+         "error": "`No se pudo cambiar el idioma.\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+         "current": "`> ${ping} **El idioma actual es**: \\` ${Langs[ls]}\\``"
+      }
+   },
+   "events": {
+      "interactionCreate": {
+         "perms": "`${client.allEmojis.deny} **Me falta el permiso \\`EMBED_LINKS\\`!**`",
+         "error": "`${client.allEmojis.deny} **Algo salió mal al ejecutar este comando!**`"
+      }
+   }
+}

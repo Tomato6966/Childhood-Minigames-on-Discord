@@ -1,0 +1,118 @@
+{
+    "commands": {
+        "info": {
+            "memory": {
+                "title": "`> ${client.allEmojis.memory} Lîstika Bîrê`",
+                "field1": {
+                    "key": "`__Çi bikim:__`",
+                    "value": "`>>> Lîstikvanek tê pêşniyar kirin ku bi we re bilîze (hûn dikarin bijartî qebareya panelê biryar bidin (~Dema lîstikê)), piştî ku wî/wê/wan qebûl kir ku lîstik dest pê dike.\\n\\nBikarhênerê ku dora wê dike wêne 2 Kart dike û rû û pozîsyona wan bi bîr tîne. Ger ew dîsa bibin ew dikarin dîsa wêne bikin, û heke ew Maçek (== 2 Kartên bi heman rûyî) bistînin 1 Pûan distînin.\\n\\nLîstikvanê ku herî zêde Pûan digire serdikeve (piştî ku hemî maç hatin dîtin an jî lîstik qediya).\\n\\nHeke hûn Maçek bi dest bixin, hûn dikarin dîsa wêne bikin.\\n\\nJi bo wênekirina 2 kartên we 1 deqîqe heye, wekî din Lîstik dê biqede!\\n\\n[*Li vir bikirtînin ji bo dîtina qaîdeyên bîranînê yên fermî*](https://www.ultraboardgames.com/memory/game-rules.php)`"
+                },
+                "field2": {
+                    "key": "`__Vebijarkên Lîstinê yên Berdest:__`",
+                    "value": "`>>> **\\`2x2 Pêşewarî\\` *... heta \\`2 Points\\`***\\n**\\`3x3 Pêşewarî\\` *... heta \\`4 Points\\`***\\n**\\`4x4 Pêşewarî\\` *... heta \\`8 Points\\`***\\n**\\`5x5 Pêşewarî\\` *... heta \\`12 Points\\`***`"
+                }
+            },
+            "about_me": {
+                "title": "`> ${client.allEmojis.bot} Hey ez **${client.user.username}** im û ez lîstikên Zarokan ên naskirî û hezkirî li ser Discord pêşkêşî we dikim!\\nJi bo dest pê bikin \\`/\\ binivîsin "
+            }
+        },
+        "memory": {
+            "alone": {
+                "title": "`Tu dixwazî bi xwe re bilîzî?`",
+                "description": "`Hûn dikarin bi tena serê xwe bilîzin, lê ew ê ji bo we 1 serkeftin û 1 winda were hesibandin!\\nAka hûn **LÎSTIK 1** û **LÎSTIK 2**` dilîzin`",
+                "accept": "`${client.allEmojis.accept} Niha bi tena serê xwe dileyze!`",
+                "deny": "`${client.allEmojis.deny} Tenê nayê lîstin û betal kirin!`"
+            },
+            "error1": "`**Divê hûn bikarhênerek ku di vê GUILDê de ye ping bikin.**`",
+            "error3": "`**Hûn nikarin bi Discord Bot-ê bilîzin.**\\nParast bikin ku hûn bi rastî li dijî Mirovek rastîn bilîzin an jî AI-MODE hilbijêrin!`",
+            "request_user": "`${client.allEmojis.deny} **Te jixwe Daxwazek din heye, pêşî wê qebûl bike / red bike!**\\n\\n> ${client.allGames.get(`Request_${user.id}`)} ",
+            "request_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ jixwe Daxwazek din heye, li benda wî/wê/wan bisekinin!**\\n\\n> ${client.allGames.get(`Request_ ",
+            "game_user": "`${client.allEmojis.deny} **Tu jixwe di Lîstikek cûda de yî, pêşî lê biqedîne!**\\n\\n> ${client.allGames.get(`Lîstik_${user.id}`)}`",
+            "game_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ jixwe lîstikek din dilîze, li benda wî/wê/wan bisekinin!**\\n\\n> ${client.allGames.get(`Lîstik_ ",
+            "request": {
+                "title": "`> ${client.allEmojis.memory} ji bo \\`${boardSize}x${boardSize}\\` BİXWÎNE!`",
+                "field1": {
+                    "key": "`__Lîstikvan 1 (Çalakvan):__`",
+                    "value": "`> \\`${user.tag}\\` ${user}`"
+                },
+                "field2": {
+                    "key": "`__Lîstikvan 2 (Dijmin):__`",
+                    "value": "`> \\`${EnemyUser.tag}\\` ${EnemyUser}`"
+                },
+                "field3": {
+                    "key": "`__Mezinahiya panelê:__`",
+                    "value": "`> **\\`${boardSize}x${boardSize}\\`: _Win heta \\`${MaxPoints[boardSize]} Pûan\\`_!**`"
+                },
+                "description": "`***${EnemyUser} pêdivî ye ku <t:${Math.floor((Date.now() + 60_000) / 1000)}:R> qebûl bike an jî dê were betal kirin!***`",
+                "buttons": {
+                    "accept": "`Daxwaza Lîstikê Bipejirîne`",
+                    "deny": "`Daxwaza lîstikê red bikin`",
+                    "cancel": "`Daxwaza lîstikê betal bike`"
+                },
+                "cancelled": "`${client.allEmojis.cancel} **Daxwaza lîstikê hat betal kirin **`",
+                "not_allowed": "`**Tenê ${EnemyUser.tag} destûr heye ku lîstikek qebûl/nekar bike!**`",
+                "denied": "`${client.allEmojis.deny} **Daxwaza lîstikê hate red kirin**`",
+                "accepted": "`${client.allEmojis.accept} **Daxwaza lîstikê hate pejirandin **`",
+                "error_start": "`Nikare lîstikê bide destpêkirin.\\n\\`\\`\\`${String(e.message ? e.message: e).substring(0, 1000)}\\`\\`\\``",
+                "started": "`${client.allEmojis.accept} **Lîstik dest pê kir**`",
+                "started_desc": "`> [Li vir](${gameMessage.url}) PEYAM e`",
+                "timeout": "`**${EnemyUser.tag}** (${EnemyUser}) Mixabin daxwaza lîstikê ji **${user.tag}** (${user}) qebûl nekir.`"
+            },
+            "game": {
+                "ainomatch": "`${client.allEmojis.bot} **AI-ê li hev nehat.**`",
+                "aimatch": "`${client.allEmojis.bot} **AI MAMaçek hat!**`",
+                "turn": "\\` **${CurrentUser.tag}**'s Zîvir!\\n2 Kartan hilbijêrin û wan bi bîr bînin: ${CurrentUser}!`",
+                "notplaying": "`**Tu beşdarî vê Lîstikê nabî!**\\nEw lîstikek di navbera ${user.user} û ${enemy.user} de ye.`",
+                "notturn": "`**Derta ${current.user} ye, ji kerema xwe bisekine!**`",
+                "firstpic": {
+                    "title": "`${client.allEmojis.accept} Ev karta yekem e BİXWÎNE BİXWÎNE!`",
+                    "description": "`*Hûn dikarin qerta xweya paşîn hilbijêrin ...*`"
+                },
+                "secondpic": {
+                    "title": "`${client.allEmojis.accept} Ev Karta duyemîn e, BİXWÎNE BİXWÎNE!`",
+                    "description": "`*Ew hilbijartina weya paşîn e û ew ne li hev in.*`"
+                },
+                "editedpic": "`${client.allEmojis.timeout} Naha Qerta xweya Paşê hilbijêrin!`",
+                "notsamecard": "`**Hûn nikarin heman kartê du caran hilbijêrin!**`",
+                "match": {
+                    "title": "`${client.allEmojis.accept} Xwezî te maçek ${finalBoard[bId]} stand, ev yek 1 Pûan dide te!`",
+                    "description": "`*Niha \\`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\\` Xal û Dijminê we hene: \\`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Points\\`*\\n\\n***You can pick again!***`"
+                },
+                "matchturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** Ji ber ku wî/wê/wan Maçek stend, careke din rabû!\\n2 Kartan hilbijêrin û wan bi bîr bînin: ${gameData.current.user}!`",
+                "currentturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}**'s Zîvir!\\n2 Kartan hilbijêrin û wan bi bîr bînin: ${gameData.current.user}!`",
+                "finishpic": "`${client.allEmojis.timeout} Ew hilbijartina weya duyemîn bû! Kart li hev nayên!`",
+                "end": {
+                    "content": "`${reason && reason == `ended` ? `${client.allEmojis.memory} \\` | \\` **Lîstik qediya!**` : `${client.allEmojis.memory} \\` | \\` **Lîstik qediya!**\\n> ${client.allEmojis.timeout} Dem qediya, *ji ber ku ${gameData ? `**${gameData.current.user.tag}**` : `Bikarhênerê dawî`} di binê 1 hûrdemê de 2 Kart nekişand!*`}`",
+                    "title": "`${gameData.winner ? `${client.allEmojis.win} Serketî ye **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **Ew kişandin e!**`}`",
+                    "field1": {
+                        "key": "`__Amarên Lîstikvan 1:__`",
+                        "value": "`>>> Bikaranîvan: ${gameData.user.user}\\nPoints: \\`${gameData.user.points}\\``"
+                    },
+                    "field2": {
+                        "key": "`__Amarên Lîstikvan 2:__`",
+                        "value": "`>>> Bikaranîvan: ${gameData.enemy.user}\\nPoints: \\`${gameData.enemy.points}\\``"
+                    }
+                }
+            }
+        },
+        "ping": {
+            "botping": {
+                "ping": "`> ${ping} Pinging ...`",
+                "result": "`> ${bot} **Bot Ping**: \\`${Math.floor((Date.now() - createdTimestamp))} ms\\`\\n\\n> ${ping} **Api Ping**: \\`${Math.floor(client.ws.ping)} ms\\``"
+            },
+            "api": "`> ${ping} **Api Ping**: \\`${Math.floor(client.ws.ping)} ms\\``"
+        },
+        "setlanguage": {
+            "missing_perms": "`**Tu ne Rêvebirê Discord î û nikarî Guild bi rêve bibî!**\\n> Destûr nayê dayîn ku hûn vê yekê bicîh bikin!`",
+            "success": "`> ${client.allEmojis.accept} Zimanê nû bi serketî hate danîn \\`${Langs[Option]}\\``",
+            "error": "`Ziman nekarî biguhere.\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+            "current": "`> ${ping} **Zimanê heyî ye**: \\`${Langs[ls]}\\``"
+        }
+    },
+    "events": {
+        "interactionCreate": {
+            "perms": "`${client.allEmojis.deny} **Min Destûra \\`EMBED_LINKS\\` winda kir!**`",
+            "error": "`${client.allEmojis.deny} **Di dema xebitandina vê Fermandariyê de tiştek xelet derket!**`"
+        }
+    }
+}

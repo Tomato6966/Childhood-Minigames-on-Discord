@@ -1,0 +1,118 @@
+{
+   "commands": {
+      "info": {
+         "memory": {
+            "title": "`> Гра на пам'ять ${client.allEmojis.memory}`",
+            "field1": {
+               "key": "`__Що робити:__`",
+               "value": "`>>> Гравцеві пропонується грати з вами (за бажанням ви можете визначити розмір дошки (~Gametime)), після того, як він/вона/вони прийняли, гра почнеться.\\n\\nКористувач, який на черзі, малює 2 карти та запам’ятовує свої обличчя та положення. Якщо вони знову, вони можуть знову зображувати, а якщо вони отримають збіг (== 2 картки з однаковим обличчям), вони отримують 1 очко.\\n\\nПеремагає Гравець з найбільшою кількістю Окуляри (після того, як знайдено всі збіги або Гра закінчена).\\n\\nЯкщо ви отримаєте Матч, ви можете знову зобразити.\\n\\nУ вас є 1 хвилина, щоб відобразити 2 картки, інакше Гра закінчиться!\\n\\n[*Натисніть тут щоб переглянути офіційні правила пам'яті*](https://www.ultraboardgames.com/memory/game-rules.php)`"
+            },
+            "field2": {
+               "key": "`__Доступні параметри відтворення:__`",
+               "value": "`>>> **\\`2x2 дошка\\` *... аж до \\`2 Окуляри\\`***\\n**\\`3x3 дошка\\` *... аж до \\`4 Окуляри\\`***\\n**\\`4x4 дошка\\` *... аж до \\`8 Окуляри\\`***\\n**\\`5x5 дошка\\` *... аж до \\`12 Окуляри\\`***`"
+            }
+         },
+         "about_me": {
+            "title": "`> ${client.allEmojis.bot} Привіт, я **${client.user.username}**, і я надаю вам добре відомі і сподобалися дитячі ігри на Discord!\\nЩоб почати, введіть \\`/\\` і виберіть мене!`"
+         }
+      },
+      "memory": {
+         "error1": "`**Вам потрібно відправити ping для КОРИСТУВАЧА, який входить до цієї ГІЛЬДІЇ.**`",
+         "error3": "`**Ви не можете грати з ботом Discord.**\\nПереконайтеся, що граєте проти справжньої людини або виберіть AI-MODE!`",
+         "request_user": "`${client.allEmojis.deny} **У вас уже є інший запит, спершу прийміть або відхиліть його!**\\n\\n> ${client.allGames.get(`Request_${user.id}`)}`",
+         "request_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ вже має інший запит, чекайте його/їх!**\\n\\n> ${client.allGames.get(`Request_${EnemyUser.id}`)}`",
+         "game_user": "`${client.allEmojis.deny} **Ви вже в іншій грі, закінчіть її першим!**\\n\\n> ${client.allGames.get(`Game_${user.id}`)}`",
+         "game_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ вже грає в іншу гру, зачекайте його/їх!**\\n\\n> ${client.allGames.get(`Game_ ${EnemyUser.id}`)}`",
+         "request": {
+            "title": "`> ${client.allEmojis.memory} новий ігровий запит для \\`${boardSize}x${boardSize}\\` ПАМ'ЯТІ!`",
+            "field1": {
+               "key": "`__Гравець 1 (Челенджер):__`",
+               "value": "`> \\`${user.tag}\\` ${user}`"
+            },
+            "field2": {
+               "key": "`__ Гравець 2 (Ворог):__`",
+               "value": "`> \\`${EnemyUser.tag}\\` ${EnemyUser}`"
+            },
+            "field3": {
+               "key": "`__Розмір дошки:__`",
+               "value": "`> **\\`${boardSize}x${boardSize}\\`: _Виграйте до \\`${MaxPoints[boardSize]} балів\\`_!**`"
+            },
+            "description": "`***${EnemyUser} має прийняти <t:${Math.floor((Date.now() + 60_000) / 1000)}:R> або його буде скасовано!***`",
+            "buttons": {
+               "accept": "`Прийняти запит на гру`",
+               "deny": "`Відхилити запит на гру`",
+               "cancel": "`Скасувати запит на гру`"
+            },
+            "cancelled": "`${client.allEmojis.cancel} **Запит на гру скасовано**`",
+            "not_allowed": "`**Лише ${EnemyUser.tag} дозволяється приймати/забороняти гру!**`",
+            "denied": "`${client.allEmojis.deny} **Запит на гру відхилено**`",
+            "accepted": "`${client.allEmojis.accept} **Запит на гру прийнято**`",
+            "error_start": "`Не вдалося запустити гру.\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+            "started": "`${client.allEmojis.accept} **Гра розпочалася**`",
+            "started_desc": "`> [Тут](${gameMessage.url}) є ПОВІДОМЛЕННЯ`",
+            "timeout": "`**${EnemyUser.tag}** (${EnemyUser}) На жаль, не прийняв запит на гру від **${user.tag}** (${user}).`"
+         },
+         "game": {
+            "alone": {
+               "title": "`Хочеш пограти з собою?`",
+               "description": "`Ви можете грати поодинці, але це вважатиметься для вас 1 перемогою і 1 програшем!\\nВи граєте в **PLAYER 1** і **PLAYER 2**`",
+               "accept": "`${client.allEmojis.accept} Зараз граю сам!`",
+               "deny": "`${client.allEmojis.deny} Не граю сам і скасовано!`"
+            },
+            "ainomatch": "`${client.allEmojis.bot} **AI не отримав відповідності.**`",
+            "aimatch": "`${client.allEmojis.bot} **У мене збігається!**`",
+            "turn": "\\` Хід **${CurrentUser.tag}**!\\nВиберіть 2 карти та запам’ятайте їх: ${CurrentUser}!`",
+            "notplaying": "`**Ви не берете участі в цій грі!**\\nЦе гра між ${user.user} і ${enemy.user}.`",
+            "notturn": "`**Черга ${current.user}, будь ласка, зачекайте!**`",
+            "firstpic": {
+               "title": "`${client.allEmojis.accept} Це перша картка ПАМ'ЯТАЙТЕ ЦЕ!`",
+               "description": "`*Ви можете вибрати наступну картку ...*`"
+            },
+            "secondpic": {
+               "title": "`${client.allEmojis.accept} Це друга картка, ПАМ’ЯТАЙТЕ ЦЕ!`",
+               "description": "`*Це ваш останній вибір, і вони не збігаються.*`"
+            },
+            "editedpic": "`${client.allEmojis.timeout} Тепер виберіть свою наступну картку!`",
+            "notsamecard": "`**Ви не можете вибрати ту саму карту двічі!**`",
+            "match": {
+               "title": "`${client.allEmojis.accept} Вітаємо, ви отримали матч ${finalBoard[bId]}, це дає вам 1 бал!`",
+               "description": "`*Тепер у вас є \\`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\\` Окуляри і ваш ворог: \\`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} Окуляри\\`*\\n\\n***You can pick again!***`"
+            },
+            "matchturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** отримав ще один хід, оскільки він/вона/вони отримали збіг!\\nВиберіть 2 карти та запам'ятайте їх: ${gameData.current.user}!`",
+            "currentturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** на черзі!\\nВиберіть 2 карти та запам'ятайте їх: ${gameData.current.user}!`",
+            "finishpic": "`${client.allEmojis.timeout} Це був ваш другий вибір! Картки не збігаються!`",
+            "end": {
+               "content": "`${reason && reason == `ended` ? `${client.allEmojis.memory} \\` | \\` **Гра закінчена!**` : `${client.allEmojis.memory} \\` | \\` **Гру закінчено!**\\n> ${client.allEmojis.timeout} Час закінчився, *тому що ${gameData ? `**${gameData.current.user.tag}**` : `останній користувач`} не зробив 2 картки менше ніж за 1 хвилину!*`}`",
+               "title": "`${gameData.winner ? `${client.allEmojis.win} Переможець **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **Це нічия!**`}`",
+               "field1": {
+                  "key": "`__Статистика гравця 1:__`",
+                  "value": "`>>> Користувач: ${gameData.user.user}\\nОкуляри: \\`${gameData.user.points}\\``"
+               },
+               "field2": {
+                  "key": "`__Статистика гравця 2:__`",
+                  "value": "`>>> Користувач: ${gameData.enemy.user}\\nОкуляри: \\`${gameData.enemy.points}\\``"
+               }
+            }
+         }
+      },
+      "ping": {
+         "botping": {
+            "ping": "`> ${ping} Пінг ...`",
+            "result": "`> ${bot} **Пінг бота**: \\`${Math.floor((Date.now() - createdTimestamp))} ms\\`\\n\\n> ${ping} **Api Пінг**: \\`${Math.floor(client.ws.ping)} ms\\``"
+         },
+         "api": "`> ${ping} **Api Пінг**: \\`${Math.floor(client.ws.ping)} ms\\``"
+      },
+      "setlanguage": {
+         "missing_perms": "`**Ви не адміністратор Discord і не можете керувати гільдією!**\\n> Вам заборонено це виконувати!`",
+         "success": "`> ${client.allEmojis.accept} Успішно встановлено нову мову \\`${Langs[Option]}\\``",
+         "error": "`Не вдалося змінити мову.\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+         "current": "`> ${ping} **Поточна мова**: \\`${Langs[ls]}\\``"
+      }
+   },
+   "events": {
+      "interactionCreate": {
+         "perms": "`${client.allEmojis.deny} **У мене відсутній дозвіл \\`EMBED_LINKS\\`!**`",
+         "error": "`${client.allEmojis.deny} **Під час виконання цієї команди сталася помилка!**`"
+      }
+   }
+}

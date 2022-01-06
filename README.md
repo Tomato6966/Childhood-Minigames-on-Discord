@@ -6,7 +6,7 @@
     <img src="https://imgur.com/8hftTNl.png" style="width: 75%">
 </a>
 <a href="https://discord.gg/XGAHheQxde">
-    <img src="https://discord.com/api/guilds/927935858810708040/widget.png?style=banner3">
+    <img src="https://discord.com/api/guilds/927935858810708040/widget.png?style=banner1">
 </a>
 
 

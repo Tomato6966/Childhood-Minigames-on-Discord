@@ -44,6 +44,8 @@ Currently there is only 1 Game:
  - The Memory Game is simple explained, it is like MEMORY.
  - You pic 2 Cards and remember them. If it's a match you get 1 Point.
  - The one with the most points is the winner.
+ - you can play with the bot, he is an EASY AI, aka it will calculate the % of when to win and always win after X different wrong pics
+ - You can play with yourself (but you will get 1 win and 1 loose at the same time... aka you control player 1 and 2)
  - You have 1 Minute to pic 2 cards. Otherwise the game will end!
  - [Here](https://www.ultraboardgames.com/memory/game-rules.php) are offical Memory Rules
 

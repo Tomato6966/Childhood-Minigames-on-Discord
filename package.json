@@ -4,10 +4,12 @@
   },
   "name": "documatic",
   "version": "1.0.0",
-  "description": "a Minigame bot for the Hackathon hosted by Documatic",
+  "description": "A Minigame bot for the Hackathon hosted by Documatic",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "run": "node index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

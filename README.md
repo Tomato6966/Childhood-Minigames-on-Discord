@@ -10,7 +10,7 @@
 - [**__2. How does this Bot work ?__**](https://github.com/Tomato6966/Documatic-Hackathon/#-how-does-this-bot-work-)
 - [**__3. All Games__**](https://github.com/Tomato6966/Documatic-Hackathon/#-all-games)
     - [3.1 Memory Game](https://github.com/Tomato6966/Documatic-Hackathon/#-memory-game)
-- [**__4. Self Hosting Tutorial__**](https://github.com/Tomato6966/Documatic-Hackathon/#-self-hosting-tutorial)
+- [**__4. Self Hosting Tutorial__**](https://github.com/Tomato6966/Documatic-Hackathon/#%EF%B8%8F-self-hosting-tutorial)
 - [**__5. Commands List__**](https://github.com/Tomato6966/Documatic-Hackathon/#-commands-list)
 - [**__6. To Do List and History__**](https://github.com/Tomato6966/Documatic-Hackathon/#-to-do-and-history)
 
@@ -58,6 +58,16 @@ Currently there is only 1 Game:
 ***
 
 ## ⚙️ Self Hosting Tutorial
+
+- `1.` Download [nodejs](https://nodejs.org) v16.6 or higher I recommend v16.13, if you need it for a LINUX VPS check out my [CHEATSHEET](https://github.com/Tomato6966/Debian-Cheat-Sheet-Setup/wiki/3.1-Install-nodejs-and-npm)
+- `2.` Download this Repo as a [ZIP]() and Extract it (open a CMD in that FOLDER), or clone it: `git clone https://github.com/Tomato6966/Documatic-Hackathon`
+- `3.` CD into it: `cd Documatic-Hackathon`
+- `4.` type `npm install`
+- `5.` to start it type `node bot.js` or `node index.js` and then choose what you wanna do (`n` for skipping "FUN QUESTION", the answer for it would be `Documatic`)
+- `--` to deploy slash commands do `node index.js` --> `n` --> `2` --> then choose
+- `--` to host 24/7 Buy a [VPS](https://bero.milrato.dev) and host it with [PM2](https://github.com/Tomato6966/Debian-Cheat-Sheet-Setup/wiki/4-pm2-tutorial) `npm i -g pm2` --> `pm2 start bot.js --name Documatic_Hackathon_CHILD_GAMER`
+- `--` to stop hosting it type <kbd>ctrl</kbd>+<kbd>c</kbd> in the console
+- `--` Yes you can type `npm start` / `npm run`
 
 ***
 

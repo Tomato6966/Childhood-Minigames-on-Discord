@@ -30,7 +30,7 @@ const { readdirSync } = require(`fs`);
 
     // Multiple Languages
     client.la = {}
-    var langs = readdirSync(`./src/json/languages`)
+    var langs = readdirSync(`./src/util/languages`)
     for (const lang of langs.filter(file => file.endsWith(`.json`))) {
         client.la[`${lang.split(`.json`).join(``)}`] = require(`./src/json/languages/${lang}`)
     }

@@ -3,6 +3,7 @@
 *Offical Repository for the Documatic Hackathon, participated by [`Tomato#6966`](https://tomato6966.xyz)*
 
 <a href="https://discord.com/api/oauth2/authorize?client_id=927938123936198787&permissions=2180368448&scope=bot%20applications.commands">
+    <img src="https://cdn.discordapp.com/avatars/927938123936198787/fae134fa014213ce6e1b098aaa12725b.webp?size=4096" style="height: 350px;border-radius:50px;">
     <img src="https://imgur.com/8hftTNl.png" style="height: 350px;border-radius:50px;">
 </a>
 <a href="https://discord.gg/XGAHheQxde">

@@ -5,8 +5,8 @@
 <a href="https://discord.com/api/oauth2/authorize?client_id=927938123936198787&permissions=2180368448&scope=bot%20applications.commands">
     <img src="https://imgur.com/8hftTNl.png" style="width: 25%;border-radius:25px;">
 </a>
-<a href="https://discord.gg/XGAHheQxde">
     <iframe src="https://discord.com/widget?id=927935858810708040&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+<a href="https://discord.gg/XGAHheQxde">
     <img src="https://discord.com/api/guilds/927935858810708040/widget.png?style=banner4">
 </a>
 

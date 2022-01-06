@@ -65,7 +65,7 @@ Currently there is only 1 Game:
 - `4.` type `npm install`
 - `5.` to start it type `node bot.js` or `node index.js` and then choose what you wanna do (`n` for skipping "FUN QUESTION", the answer for it would be `Documatic`)
 - `--` to deploy slash commands do `node index.js` --> `n` --> `2` --> then choose
-- `--` to host 24/7 Buy a [VPS](https://bero.milrato.dev) and host it with [PM2](https://github.com/Tomato6966/Debian-Cheat-Sheet-Setup/wiki/4-pm2-tutorial) `npm i -g pm2` --> `pm2 start bot.js --name Documatic_Hackathon_CHILD_GAMER`
+- `--` to host 24/7 Buy a [VPS](https://bero.milrato.dev) and host it with [PM2](https://github.com/Tomato6966/Debian-Cheat-Sheet-Setup/wiki/4-pm2-tutorial) `npm i -g pm2` --> `pm2 start bot.js`
 - `--` to stop hosting it type <kbd>ctrl</kbd>+<kbd>c</kbd> in the console
 - `--` Yes you can type `npm start` / `npm run`
 

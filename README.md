@@ -132,7 +132,7 @@ Currently there is only 1 Game:
 > - ❌ Languageadd: `Arab`
 > - ❌ Languageadd: `Czech`
 > - ❌ Languageadd: `Dutch`
-> - ❌ Languageadd: `chineese/japan`
+> - ✅ Languageadd: `chineese/japan`
 > - ❌ ~~Feature add: `sharding`~~ --> Not needed
 > - ✅ Feature add: `Automated Status Changer`
 

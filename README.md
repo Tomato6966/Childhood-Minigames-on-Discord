@@ -134,7 +134,7 @@ Currently there is only 1 Game:
 > - ❌ Languageadd: `Dutch`
 > - ❌ Languageadd: `chineese/japan`
 > - ❌ ~~Feature add: `sharding`~~ --> Not needed
-> - ❌ Feature add: `Automated Status Changer`
+> - ✅ Feature add: `Automated Status Changer`
 
 ***
 

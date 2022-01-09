@@ -94,8 +94,7 @@ const set2string = (n) => {
  */
 const formatMS = (n) => {
     if(!n) return "000"; // Returning so it doesn't crash
-
-    return n + (Number(n) < 100 ? '0' : '');
+    return n + (Number(n) < 100 ? '0' : ''); 
 }
 
 /**
@@ -350,5 +349,7 @@ module.exports = {
     shuffleArray,
     getEmojiURL,
     gameEmojis,
-    getDateTimeString
+    getDateTimeString,
+    avgPoints: (d) => d.playedGames ? Math.floor((d.playedGames.reduce((x,y) => x + y.points, 0) / d.playedGames.length)*100)/100 : Math.floor((d.reduce((x,y) => x + y.points, 0) / d.length)*100)/100,
+    getPoints: (d) => d.playedGames ? d.playedGames.reduce((a,b) => a + b.points, 0) : d.reduce((a,b) => a + b.points, 0)
 };

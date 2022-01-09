@@ -1,5 +1,6 @@
 const { Collection } = require("discord.js");
 const { writeFile, readFile, existsSync } = require('fs');
+const { delay } = require("./util.js");
 let dbFile = `./src/json/database/data.json`;
 /**
   * @returns promise of the WHOLE Db
@@ -182,41 +183,78 @@ const saveGame = (gameData, Type = "default") => {
             const rawData = await getRawData().catch(console.error);
             if(!rawData) return reject(new Error("No rawData found"));
 
-            setUserData(gameData.user);
-            setUserData(gameData.enemy);
+            if(Type == "memory") {
+                setUserData(gameData.user);
+                setUserData(gameData.enemy);
+            } else if(Type == "ladder") {
+                gameData.players.forEach(d => {
+                    setUserData(d);
+                })
+            }
             
             function setUserData(user) {
-                if(rawData[`${user.id}`]) {
-                    if(rawData[`${user.id}`].playedGames) {
-                        // add to the wongames
-                        rawData[`${user.id}`].playedGames.push({
-                            points: user.points,
-                            guild: gameData.guildId,
-                            boardSize: gameData.boardSize,
-                            type: Type,
-                        })
+                if(Type == "memory") {
+                    if(rawData[`${user.id}`]) {
+                        if(rawData[`${user.id}`].playedGames) {
+                            // add to the wongames
+                            rawData[`${user.id}`].playedGames.push({
+                                points: user.points,
+                                guild: gameData.guildId,
+                                boardSize: gameData.boardSize,
+                                type: Type,
+                            })
+                        } else {
+                            // set the first wongame
+                            rawData[`${user.id}`].playedGames = [{
+                                points: user.points,
+                                guild: gameData.guildId,
+                                boardSize: gameData.boardSize,
+                                type: Type,
+                            }];
+                        }
                     } else {
-                        // set the first wongame
-                        rawData[`${user.id}`].playedGames = [{
-                            points: user.points,
-                            guild: gameData.guildId,
-                            boardSize: gameData.boardSize,
-                            type: Type,
-                        }];
-                    }
-                } else {
-                    // set the first user data 
-                    rawData[`${user.id}`] = {
-                        type: "user",
-                        id: user.id,
-                        playedGames: [{
-                            points: user.points,
-                            guild: gameData.guildId,
-                            boardSize: gameData.boardSize,
-                            type: Type,
-                        }]
-                    };
-                } 
+                        // set the first user data 
+                        rawData[`${user.id}`] = {
+                            type: "user",
+                            id: user.id,
+                            playedGames: [{
+                                points: user.points,
+                                guild: gameData.guildId,
+                                boardSize: gameData.boardSize,
+                                type: Type,
+                            }]
+                        };
+                    } 
+                } else if(Type == "ladder") {
+                    if(rawData[`${user.id}`]) {
+                        if(rawData[`${user.id}`].playedGames) {
+                            // add to the wongames
+                            rawData[`${user.id}`].playedGames.push({
+                                points: gameData.players.sort((a,b) => a.position - b.position).findIndex(p => p.id == user.id) * 1.5,
+                                guild: gameData.guildId,
+                                type: Type,
+                            })
+                        } else {
+                            // set the first wongame
+                            rawData[`${user.id}`].playedGames = [{
+                                points: gameData.players.sort((a,b) => a.position - b.position).findIndex(p => p.id == user.id) * 1.5,
+                                guild: gameData.guildId,
+                                type: Type,
+                            }];
+                        }
+                    } else {
+                        // set the first user data 
+                        rawData[`${user.id}`] = {
+                            type: "user",
+                            id: user.id,
+                            playedGames: [{
+                                points: gameData.players.sort((a,b) => a.position - b.position).findIndex(p => p.id == user.id) * 1.5,
+                                guild: gameData.guildId,
+                                type: Type,
+                            }]
+                        };
+                    } 
+                }
             }
 
             await setRawData(rawData);

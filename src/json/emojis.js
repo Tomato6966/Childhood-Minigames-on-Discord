@@ -11,6 +11,10 @@ module.exports = {
     timeout: "⏲️",
     win: "<a:Win:928333805658472498>",
     draw: "<:ohno_Draw:928333805209681940>",
+    dice: "🎲",
+    diceRoll: "<a:DiceRoll:929753768801734716>",
+    snake: "🐍",
+    ladder: "🪜",
     memoryGame: {
         "1": "<:memory_card1:927994923381309500>",
         "2": "<:memory_card2:927994924002082847>",

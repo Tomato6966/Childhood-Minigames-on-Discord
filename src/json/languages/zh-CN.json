@@ -1,0 +1,118 @@
+{
+    "commands": {
+       "info": {
+          "memory": {
+             "title": "`> ${client.allEmojis.memory} 记忆游戏`",
+             "field1": {
+                "key": "`__做什么：__`",
+                "value": "`>>> 在他/她/他们接受游戏开始后，提供与您一起玩的玩家（您可以选择决定棋盘大小（~Gametime））。\\n\\n轮到它的用户是图片 2 卡并记住他们的 面和位置。 如果他们再次出现，他们可以再次拍照，并且如果他们获得匹配（== 2 张具有相同面孔的卡片），他们将获得 1 分。\\n\\n得分最多的玩家获胜（在找到所有匹配之后或 游戏结束）。\\n\\n如果您获得匹配，您可以重新拍照。\\n\\n您有 1 分钟的时间来 pic 2 张牌，否则游戏将结束！\\n\\n[*点击这里 查看官方记忆规则*](https://www.ultraboardgames.com/memory/game-rules.php)`"
+             },
+             "field2": {
+                "key": "`__可用的播放选项：__`",
+                "value": "`>>> **\\`2x2 木板\\` *... 取决于 \\`2 积分\\`***\\n**\\`3x3 木板\\` *... 取决于 \\`4 积分\\`***\\n**\\`4x4 木板\\` *... 取决于 \\`8 积分\\`***\\n**\\`5x5 木板\\` *... 取决于 \\`12 积分\\`***`"
+             }
+          },
+          "about_me": {
+             "title": "`> ${client.allEmojis.bot} 嘿，我是 **${client.user.username}**，我在 Discord 上为您提供众所周知和喜欢的 Child-Games！\\n要开始输入 \\`/\\` 并选择我!`"
+          }
+       },
+       "memory": {
+          "alone": {
+             "title": "`你想和自己玩吗？`",
+             "description": "`你可以单独玩，但对你来说算 1 胜 1 松！\\n阿卡 你玩 **播放器 1** 和 **播放器 2**`",
+             "accept": "`${client.allEmojis.accept} 现在一个人玩！`",
+             "deny": "`${client.allEmojis.deny} 不单独玩并取消！`"
+          },
+          "error1": "`**你需要 ping 一个在这个 GUILD 中的用户。**`",
+          "error3": "`**您不能使用 Discord Bot 进行游戏。**\\n请务必与真正的人类对战或选择 AI 模式！`",
+          "request_user": "`${client.allEmojis.deny} **您已经有另一个请求，请先接受/拒绝它！**\\n\\n> ${client.allGames.get(`Request_${user.id}`)}`",
+          "request_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ 已经有另一个请求，等待他/她/他们！**\\n\\n> ${client.allGames.get(`Request_${EnemyUser.id}`)}`",
+          "game_user": "`${client.allEmojis.deny} **你已经在另一个游戏中，先完成它！**\\n\\n> ${client.allGames.get(`Game_${user.id}`)}`",
+          "game_enemy": "`${client.allEmojis.deny} **__${EnemyUser.tag}__ 已经在玩另一个游戏，等他/她/他们！**\\n\\n> ${client.allGames.get(`Game_${EnemyUser.id}`)}`",
+          "request": {
+             "title": "`> ${client.allEmojis.memory} 一个新的游戏请求 \\`${boardSize}x${boardSize}\\` 内存！`",
+             "field1": {
+                "key": "`__玩家 1（挑战者）：__`",
+                "value": "`> \\`${user.tag}\\` ${user}`"
+             },
+             "field2": {
+                "key": "`__玩家 2（敌人）：__`",
+                "value": "`> \\`${EnemyUser.tag}\\` ${EnemyUser}`"
+             },
+             "field3": {
+                "key": "`__板尺寸：__`",
+                "value": "`> **\\`${boardSize}x${boardSize}\\`: _赢到 \\`${MaxPoints[boardSize]} 点\\`_!**`"
+             },
+             "description": "`***${EnemyUser} 需要接受 <t:${Math.floor((Date.now() + 60_000) / 1000)}:R> 否则将被取消！***`",
+             "buttons": {
+                "accept": "`接受游戏请求`",
+                "deny": "`拒绝游戏请求`",
+                "cancel": "`取消游戏请求`"
+             },
+             "cancelled": "`${client.allEmojis.cancel} **游戏请求已被取消**`",
+             "not_allowed": "`**只有 ${EnemyUser.tag} 被允许接受/拒绝游戏！**`",
+             "denied": "`${client.allEmojis.deny} **游戏请求已被拒绝**`",
+             "accepted": "`${client.allEmojis.accept} **游戏请求已被接受**`",
+             "error_start": "`无法启动游戏。\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+             "started": "`${client.allEmojis.accept} **游戏已经开始**`",
+             "started_desc": "`> [这里](${gameMessage.url}) 是消息`",
+             "timeout": "`**${EnemyUser.tag}** (${EnemyUser}) 很遗憾没有接受来自 **${user.tag}** (${user}) 的游戏请求。`"
+          },
+          "game": {
+             "ainomatch": "`${client.allEmojis.bot} **AI 没有匹配项。**`",
+             "aimatch": "`${client.allEmojis.bot} **AI 有一场比赛!**`",
+             "turn": "`${client.allEmojis.memory} \\` | \\` **${CurrentUser.tag}** 的回合！\\n选择 2 张牌并记住它们：${CurrentUser}！`",
+             "notplaying": "`**你没有参与这个游戏！**\\n这是 ${user.user} 和 ${enemy.user} 之间的游戏。`",
+             "notturn": "`**轮到${current.user}了，请稍候！**`",
+             "firstpic": {
+                "title": "`${client.allEmojis.accept} 这是第一张卡片，记住它！`",
+                "description": "`*你可以选择你的下一张卡片...*`"
+             },
+             "secondpic": {
+                "title": "`${client.allEmojis.accept} 这是第二张卡片，记住它！`",
+                "description": "`*这是你最后的选择，他们不匹配。*`"
+             },
+             "editedpic": "`${client.allEmojis.timeout} 现在选择你的下一张卡片！`",
+             "notsamecard": "`**你不能两次选择同一张牌！**`",
+             "match": {
+                "title": "`${client.allEmojis.accept} 恭喜你获得了 ${finalBoard[bId]} 的匹配，这会给你 1 分?`",
+                "description": "`*你现在有\\`${gameData.user.id == gameData.current.id ? gameData.user.points : gameData.enemy.points}\\` 积分和你的敌人: \\`${gameData.user.id !== gameData.current.id ? gameData.user.points : gameData.enemy.points} 积分\\`*\\n\\n***You can pick again!***`"
+             },
+             "matchturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}** 因为他/她/他们得到了一场比赛，所以又轮到了！\\n选择 2 张牌并记住它们：${gameData.current.user}！`",
+             "currentturn": "`${client.allEmojis.memory} \\` | \\` **${gameData.current.user.tag}**轮到了！\\n选择两张牌并记住它们：${gameData.current.user}！`",
+             "finishpic": "`${client.allEmojis.timeout} 那是你的第二个选择！`",
+             "end": {
+                "content": "`${reason && reason == `ended` ? `${client.allEmojis.memory} \\` | \\` **游戏结束!**` : `${client.allEmojis.memory} \\` | \\` **游戏结束!**\\n> ${client.allEmojis.timeout} 时间用完了，*因为${gameData ? `**${gameData.current.user.tag}**` : `最后一个用户`} 在 1 分钟内没有画出 2 张卡片!*`}`",
+                "title": "`${gameData.winner ? `${client.allEmojis.win}  获胜者是 **__${gameData.winner.tag}__**!` : `${client.allEmojis.draw} **这是平局！**`}`",
+                "field1": {
+                   "key": "`__玩家 1 的统计数据：__`",
+                   "value": "`>>> 用户：${gameData.user.user}\\n积分：\\`${gameData.user.points}\\``"
+                },
+                "field2": {
+                   "key": "`__玩家2的统计数据：__`",
+                   "value": "`>>> 用户：${gameData.enemy.user}\\n积分：\\`${gameData.enemy.points}\\``"
+                }
+             }
+          }
+       },
+       "ping": {
+          "botping": {
+             "ping": "`> ${ping} 平 ...`",
+             "result": "`> ${bot} **Bot 平**: \\`${Math.floor((Date.now() - createdTimestamp))} ms\\`\\n\\n> ${ping} **Api 平**`"
+          },
+          "api": "`> ${ping} **Api 平**: \\`${Math.floor(client.ws.ping)} ms\\``"
+       },
+       "setlanguage": {
+          "missing_perms": "`**您不是 Discord 管理员，无法管理公会！**\\n> 您不能执​​行此操作！`",
+          "success": "`> ${client.allEmojis.accept} 成功设置新语言为\\`${Langs[Option]}\\``",
+          "error": "`无法更改语言。\\n\\`\\`\\`${String(e.message ? e.message : e).substring(0, 1000)}\\`\\`\\``",
+          "current": "`> ${ping} **当前语言是**：\\`${Langs[ls]}\\``"
+       }
+    },
+    "events": {
+       "interactionCreate": {
+          "perms": "`${client.allEmojis.deny} **我缺少 \\`EMBED_LINKS\\` 权限！**`",
+          "error": "`${client.allEmojis.deny} **运行此命令时出现问题！**`"
+       }
+    }
+ }

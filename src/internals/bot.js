@@ -19,22 +19,22 @@ module.exports = async () => {
     // define client variables
     client.allGames = new Collection();
     client.memoryGame = new Collection();
+    client.ladderGame = new Collection();
     client.commands = new Collection();
     client.allEmojis = require(`../json/emojis.js`);
     client.colors = require(`../json/colors.js`);
     client.allImages = require(`../json/images.js`);
     
-    
+    // Define the client database Example
     client.db = require(`../util/database.js`); 
     await client.db.init(); // initialize the database
 
     // Multiple Languages
-    client.la = { }
-    var langs = readdirSync(`./src/json/languages`)
-    for(const lang of langs.filter(file => file.endsWith(`.json`))){
-        client.la[`${lang.split(`.json`).join(``)}`] = require(`../json/languages/${lang}`)
-    }
-    Object.freeze(client.la)
+    client.la = {};
+    readdirSync(`./src/json/languages`).filter(file => file.endsWith(`.json`)).forEach((lang => {
+        client.la[`${lang.replace(`.json`, ``)}`] = require(`../json/languages/${lang}`)
+    }));
+    Object.freeze(client.la);
 
     const rl = createInterface({ input: process.stdin, output: process.stdout });
             

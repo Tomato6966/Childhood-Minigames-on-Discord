@@ -1,5 +1,5 @@
 module.exports = {
-    main: "BLURPLE",
+    main: "#fee75c",
     error: "RED",
     gameend: "GREEN"
 }

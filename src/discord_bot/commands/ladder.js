@@ -397,6 +397,12 @@ module.exports = {
 
             if(!gameData.winner) gameData.winner = gameData.players.sort((a,b) => b.position - a.position)[0]; //if the time ran out, then the one who got the furthest wins!
 
+           
+            // Remove them from the active game collection
+            for(const player of gameData.players) {
+                client.allGames.delete(`Game_${player.id}`);
+            }
+
             // Here u could add databasing functions to save the points
             await client.db.saveGame(gameData, "ladder").then(() => {
                 color_log([`Dim`], `Successfully saved the GAME (example of how to access user data is below [because lb etc. is exceeding the given task])`);
@@ -424,18 +430,13 @@ module.exports = {
                                 const sortedIndex = gameData.players.sort((a,b) => b.position - a.position).findIndex(p => p.id == d.id)
                                 return {
                                     name: `__Player ${index + 1}:__`, 
-                                    value: `User: <@${d.id}>\n${sortedIndex == 0 ? ":first_place:" : sortedIndex == 1 ? ":second_place:" : sortedIndex == 2 ? ":third_place:" : sortedIndex}. Place ( \`== ${(gameData.players.length - sortedIndex) * 1.5} Points\`) | Position: \`${d.position}\`\nTotal Points: \`${d.totalPoints}\``, 
+                                    value: `User: <@${d.id}>\n${sortedIndex == 0 ? ":first_place:" : sortedIndex == 1 ? ":second_place:" : sortedIndex == 2 ? ":third_place:" : sortedIndex}. Place ( \`== ${gameData.players.length > 1 ? sortedIndex == gameData.players.length - 1 ? 0 : (gameData.players.length - sortedIndex) * 1.5 : 0} Points\`) | Position: \`${d.position}\`\nTotal Points: \`${d.totalPoints}\``, 
                                     inline: false
                                 }
                             }))
                 ],
             }).catch(console.warn);
             
-           
-            // Remove them from the active game collection
-            for(const player of gameData.players) {
-                client.allGames.delete(`Game_${player}`);
-            }
 
             // delete the game
             client.ladderGame.delete(id);

@@ -20,6 +20,17 @@ module.exports = {
                 ], 
                 ephemeral: true 
             }).catch(console.warn);
+        } else if(Option && Option == `ladder_game`) {await i.reply({ 
+            embeds: [
+                new MessageEmbed()
+                    .setColor(client.colors.main)
+                    .setTitle(`${client.allEmojis.dice} **Ladder Game**`)
+                    .addField(`__What to do:__`, `> *You join the game and roll the dice, when u land on a \`LADDER\` Field you'll then get boosted up! Otherwise, when you land on a \`SNAKE\` Field you drop down ;(*\n> *You can set the DICEAMOUNT while starting it, the more dices the more fields you can walk at once!*\n> *You can also set a maximum PlayerAmount from 1-4, aka you can play alone too!*\n\n> *Up to 4 Players can play at the same time*`)
+                    .setImage(client.allImages.ladder)
+                    .setFooter(getFooter(client, guild))
+            ], 
+            ephemeral: true 
+        }).catch(console.warn);
         } else {
             await i.reply(getBaseData(client, guild, `${eval(about_me.title)}`)).catch(console.warn);
         }
@@ -31,7 +42,8 @@ module.exports = {
             {
                 choices: [
                         { name: 'about_me', value: 'about_me' },
-                        { name: 'memory_game', value: 'memory_game' }
+                        { name: 'memory_game', value: 'memory_game' },
+                        { name: 'ladder_game', value: 'ladder_game' }
                 ],
                 autocomplete: undefined,
                 type: 3,

@@ -1,7 +1,7 @@
 const { shuffleArray, color_log, delay, getEmojiURL, getBaseData, getReactionEmoji, gameEmojis, random_element, getButtonRow, getDisabledComponents, getFooter, errorEmbedArray } = require(`../../util/util`);
 const { MessageEmbed, MessageActionRow } = require(`discord.js`)
 // 2x2 == 2, 3x3 == 4, 4x4 == 8, 5x5 == 12
-const MaxPoints = { 2: 2, 3: 4, 4: 8, 5: 12 };
+const { memory: { MaxPoints } }= require("../../json/gameData.js")
 module.exports = {
     async runCommand(client, i) {
         const { member: { guild }, user, options } = i;
@@ -223,7 +223,7 @@ module.exports = {
             // get a random player as the starter
             const CurrentUser = random_element([ user, EnemyUser ].filter(d => d.id != client.user.id));
             // send the game message
-            var GameMessage = await channel.send({
+            let GameMessage = await channel.send({
                 content: `${eval(turn)}`,
                 components: emptyCardBoard
             }).catch(console.warn);
@@ -252,6 +252,7 @@ module.exports = {
             
             // set the Game into the collection;
             client.memoryGame.set(GameMessage.id, {
+                guildId: guild.id,
                 user: {
                     id: user.id,
                     user: user,
@@ -270,7 +271,6 @@ module.exports = {
                 },
                 aipic: EnemyUser.id === client.user.id ? 1 : null,
                 board: emptyCardBoard,
-                guildId: guild.id,
                 boardSize: boardSize,
                 finalBoard: getFinalBoard()
             });
@@ -344,8 +344,8 @@ module.exports = {
             } else {
                 gameData.current.second = bId;
                 // Get both emojis from the finalBoard
-                var firstEmoji = finalBoard[gameData.current.first];
-                var secondEmoji = finalBoard[gameData.current.second];
+                const firstEmoji = finalBoard[gameData.current.first];
+                const secondEmoji = finalBoard[gameData.current.second];
                 
                 if(firstEmoji === secondEmoji) {
                     // raise the points
@@ -437,27 +437,21 @@ module.exports = {
                             await delay(1_500); // wait 3.5 secs before the next pic;        
                             // If the new current user is the bot ... ai 
                             if(gameData.current.user.id === client.user.id) {
-                                var array = Object.keys(gameData.finalBoard).filter(d => {
-                                    var picked = [];
+                                let array = Object.keys(gameData.finalBoard).filter(d => {
+                                    let picked = [];
                                     gameData.board.forEach(d => d.components.forEach(d => d.disabled ? picked.push(d.customId) : null));
-                                    return !picked.includes(d);
+                                    return !picked.map(d => d.replace("memory_card_", "")).includes(d);
                                 })
                                 // get the 100% match pic, board length OR the provide length
-                                var pic_100 = after_x_pics_100_per_cent ? after_x_pics_100_per_cent : gameData.board.length;
+                                let pic_100 = after_x_pics_100_per_cent ? after_x_pics_100_per_cent : gameData.board.length;
                                 // raise the pic amount
                                 gameData.aipic++;
-                                // if only 2 cards left 100% win
-                                if(array.length == 2) {
-                                    gameData.current.first = array[0];
-                                    gameData.current.first = array[1];
-                                } else {
-                                    // 1 / 2, 1 / 3, 1 / 4, 1 / 5
-                                    var picChance = gameData.aipic > pic_100 ? 1 : 1 / (array.length);
-                                    // Pic a random element
-                                    gameData.current.first = random_element(array);
-                                    //get the pic chance to see if the second should be the same aka match or not
-                                    gameData.current.second = Math.random() < picChance ? array.filter(d => d != gameData.current.first).find(d => gameData.finalBoard[d] == gameData.finalBoard[gameData.current.first]) : random_element(array.filter(d => d != gameData.current.first));
-                                }
+                                // 1 / 2, 1 / 3, 1 / 4, 1 / 5
+                                let picChance = gameData.aipic > pic_100 ? 1 : array.length == 2 ? 1 : 1 / (array.length);
+                                // Pic a random element
+                                gameData.current.first = random_element(array);
+                                //get the pic chance to see if the second should be the same aka match or not
+                                gameData.current.second = Math.random() < picChance ? array.filter(d => d != gameData.current.first).find(d => gameData.finalBoard[d] == gameData.finalBoard[gameData.current.first]) : random_element(array.filter(d => d != gameData.current.first));
                                 // reset the ai pic if needed
                                 gameData.aipic = gameData.aipic > pic_100 ? 0 : gameData.aipic;
                                 
@@ -467,8 +461,9 @@ module.exports = {
                                 const first = gameData.current.first.split(`_`);
                                 const second = gameData.current.second.split(`_`);                
                                 // Get both emojis from the finalBoard
-                                var firstEmoji = finalBoard[gameData.current.first];
-                                var secondEmoji = finalBoard[gameData.current.second];
+                                const firstEmoji = finalBoard[gameData.current.first];
+                                const secondEmoji = finalBoard[gameData.current.second];
+                                
                                 // If the AI got a MATCH
                                 if(firstEmoji === secondEmoji) {
                                     aiMessage = `${eval(matchturn)}\n${eval(aimatch)}`; //change the aiMessage
@@ -550,31 +545,30 @@ module.exports = {
             client.memoryGame.delete(id);
         })
     },
-    cmdData: {
-        name: `memory`,
-        description: `Play a Game of Memory (find same cards)`,
-        options:  [
-            {
-                name: `enemy`,
-                description: `Against who do you want to play?`,
-                required: true,
-                type: 6
-            },
-            {
-                name: `boardsize`,
-                description: `How big should the playboard be?`,
-                required: false,
-                choices: [
-                    { name: '2x2_up_to_2_points', value: '2' },
-                    { name: '3x3_up_to_4_points', value: '3' },
-                    { name: '4x4_up_to_8_points', value: '4' },
-                    { name: '5x5_up_to_12_points', value: '5' },
-                ],
-                autocomplete: undefined,
-                type: 3,
-            }
-        ],
-        default_permission: undefined
-    }
+        cmdData: {
+            name: `memory`,
+            description: `Play a Game of Memory (find same cards)`,
+            options:  [
+                {
+                    name: `enemy`,
+                    description: `Against who do you want to play?`,
+                    required: true,
+                    type: 6
+                },
+                {
+                    name: `boardsize`,
+                    description: `How big should the playboard be?`,
+                    required: false,
+                    choices: [
+                        { name: '2x2_up_to_2_points', value: '2' },
+                        { name: '3x3_up_to_4_points', value: '3' },
+                        { name: '4x4_up_to_8_points', value: '4' },
+                        { name: '5x5_up_to_12_points', value: '5' },
+                    ],
+                    autocomplete: undefined,
+                    type: 3,
+                }
+            ],
+            default_permission: undefined
+        }
 }
-

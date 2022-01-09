@@ -12,7 +12,8 @@ module.exports = {
             "fr": "French",
             "hi": "Hindi",
             "ku": "Kurdish",
-            "uk": "Ukranian"
+            "uk": "Ukranian",
+            "zh-CN": "Chinese",
             
         }
         // Additional Command Options
@@ -58,6 +59,7 @@ module.exports = {
                         { name: 'hindi', value: 'hi' },
                         { name: 'kurdish', value: 'ku' },
                         { name: 'ukrainian', value: 'uk' },
+                        { name: 'chinese', value: 'zh-CN'}
                 ],
                 autocomplete: undefined,
                 type: 3,

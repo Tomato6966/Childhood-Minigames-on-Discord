@@ -34,7 +34,7 @@
  - The Theme of this BOT is **"CHILD GAMES"**, this means it is inspiried by Games we used to play as a child!
  - It supports multiple languages and you can easily add more!
  - It has a OWN CODED DATABASE with JSON, aka it can corrupt on BIG DATAS soon, so you might adjust database.js (it's easy to change!!!! as you have functions for it!) I might add examples for something like enmap)
- - and more!
+ - and more! (Note that not everything is translated yet)
 
 ***
 
